@@ -43,6 +43,8 @@ else {
 if (!Array.isArray(i.examples) || i.examples.length < 2 || i.examples.length > 3) errors.push('examples는 2~3개여야 한다.');
 else i.examples.forEach((e, n) => { if (typeof e !== 'string' || e.length < 15) errors.push(`예문 ${n + 1}이 짧다.`); if (typeof e === 'string' && !e.includes(hangul)) warnings.push(`예문 ${n + 1}에 '${hangul}'이 들어 있지 않다.`); });
 if (!/^\d{4}-\d{2}-\d{2}$/.test(i.date ?? '')) errors.push(`date 형식이 YYYY-MM-DD가 아니다: ${i.date}`);
+const CATS = JSON.parse(readFileSync(join(DATA, '..', 'categories.json'), 'utf-8')).map((c) => c.slug);
+if (!CATS.includes(i.category)) errors.push(`category는 ${CATS.join('/')} 중 하나여야 한다 (지금 ${i.category}).`);
 if (i.collection === '100선') errors.push('새 글에 collection: 100선 을 쓰면 안 된다.');
 if (!Number.isInteger(i.num)) errors.push('num이 정수가 아니다.');
 
@@ -62,7 +64,8 @@ for (const o of others) {
   if (o.hanja === hanja) errors.push(`같은 한자가 이미 있다 (${String(o.num).padStart(3, '0')} ${o.hanja}).`);
 }
 const expected = others.length + 1;
-if (Number.isInteger(i.num) && i.num !== expected) errors.push(`num은 ${expected}이어야 한다 (지금 ${i.num}).`);
+if (!process.env.SKIP_SEQ && Number.isInteger(i.num) && i.num !== expected) errors.push(`num은 ${expected}이어야 한다 (지금 ${i.num}).`);
+if (others.some((o) => o.num === i.num)) errors.push(`번호 ${i.num}이 이미 있다.`);
 const expectedName = `${String(i.num).padStart(3, '0')}_${hangul}.json`;
 if (basename(file) !== expectedName) errors.push(`파일명은 ${expectedName} 이어야 한다.`);
 
