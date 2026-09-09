@@ -100,16 +100,124 @@ h2::after{content:"";flex:1;height:1px;background:var(--ash)}
 .sec-h::after{content:"";flex:1;height:1px;background:var(--ash)}
 .sec-h small{font-size:12px;font-weight:400;color:var(--ink-soft)}
 @media(max-width:560px){
-  .list li a{grid-template-columns:36px 1fr auto;grid-template-rows:auto auto}
-  .list .h{grid-column:2}.list .tag{grid-column:3;grid-row:1}.list .m{grid-column:2/4}.list .r{display:none}
+  .list li a{grid-template-columns:36px auto 1fr auto;grid-template-rows:auto auto;gap:6px 10px}
+  .list .h{grid-column:2;font-size:19px}.list .r{grid-column:3;font-size:14px;align-self:baseline}.list .tag{grid-column:4;grid-row:1}.list .m{grid-column:2/5}
   .site-head h1{font-size:28px}
 }
+
+/* ── 공유 ── */
+.share{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:28px;padding:12px 14px;border:1px dashed var(--ash);border-radius:4px;background:rgba(255,255,255,.3)}
+.share-t{font-size:13px;color:var(--ink-soft);margin-right:6px}
+.share button{font:inherit;font-size:13px;padding:6px 12px;border:1px solid var(--ink);border-radius:20px;background:transparent;color:var(--ink);cursor:pointer;line-height:1.4}
+.share button:hover{background:var(--ink);color:var(--paper)}
+.share button.x{border-color:var(--ash);color:var(--ink-soft)}
+.share-msg{font-size:12px;color:var(--seal);margin-left:4px;min-height:1em}
+.share-modal{position:fixed;inset:0;background:rgba(31,42,46,.6);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.share-card{background:var(--paper);padding:14px;border-radius:6px;max-width:640px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.share-card img{width:100%;height:auto;display:block;border:1px solid var(--ash)}
+.share-card-b{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.share-card-b button{font:inherit;font-size:14px;padding:8px 16px;border:1.5px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);cursor:pointer}
+.share-card-b button:hover{background:var(--ink);color:var(--paper)}
+.share-hint{font-size:12px;color:var(--ink-soft);text-align:center;margin-top:8px}
+.top-share{margin:-8px 0 18px}
+.top-share .share{margin-top:0;padding:8px 12px}
 </style></head><body><main class="wrap wide">
 <div class="top"><span>사자성어 이야기 · 갈래</span><a href="index.html">목록으로</a></div>
 <header class="site-head">
   <h1>세상과 인심</h1>
   <p class="lit">정치와 세태, 사람들 사이의 풍경 이야기 · 37편</p>
 </header>
+<div class="top-share"><div class="share"><span class="share-t">공유하기</span><button data-act="native" hidden>기기로 공유</button><button data-act="link">링크 복사</button><button data-act="text">글로 복사</button><button data-act="x" class="x">X</button><button data-act="fb" class="x">페이스북</button><span class="share-msg" aria-live="polite"></span></div></div>
 <div class="chips" style="margin-bottom:18px"><a href="category-effort.html">노력과 성취</a><a href="category-wisdom.html">배움과 지혜</a><a href="category-friendship.html">우정과 인연</a><a href="category-virtue.html">은혜와 도리</a><a href="category-conduct.html">처세와 태도</a><a href="category-folly.html">어리석음과 경계</a><a href="category-fate.html">인생과 운명</a><a href="category-strategy.html">전쟁과 전략</a><button class="on" disabled>세상과 인심</button><a href="category-emotion.html">마음과 감정</a></div>
 <ul class="list"><li data-n="31" data-c="society" data-i="ㅈ" data-k="지록위마" data-s="지록위마 指鹿爲馬 사슴을 가리켜 말이라 한다. 윗사람을 농락하여 권세를 휘두름, 또는 거짓을 진실로 우김. 가리킬 지·사슴 록·할 위·말 마 세상과 인심"><a href="031_지록위마.html"><span class="num">031</span><span class="h">指鹿爲馬</span><span class="r">지록위마</span><span class="m">사슴을 가리켜 말이라 한다. 윗사람을 농락하여 권세를 휘두름, 또는 거짓을 진실로 우김.</span><span class="tag">세상과 인심</span></a></li><li data-n="38" data-c="society" data-i="ㅁ" data-k="문전성시" data-s="문전성시 門前成市 문 앞이 시장을 이룬다. 찾아오는 사람이 많아 붐빔. 문 문·앞 전·이룰 성·저자 시 세상과 인심"><a href="038_문전성시.html"><span class="num">038</span><span class="h">門前成市</span><span class="r">문전성시</span><span class="m">문 앞이 시장을 이룬다. 찾아오는 사람이 많아 붐빔.</span><span class="tag">세상과 인심</span></a></li><li data-n="40" data-c="society" data-i="ㄱ" data-k="군계일학" data-s="군계일학 群鷄一鶴 닭 무리 가운데 한 마리 학. 평범한 사람들 가운데 뛰어난 한 사람. 무리 군·닭 계·한 일·학 학 세상과 인심"><a href="040_군계일학.html"><span class="num">040</span><span class="h">群鷄一鶴</span><span class="r">군계일학</span><span class="m">닭 무리 가운데 한 마리 학. 평범한 사람들 가운데 뛰어난 한 사람.</span><span class="tag">세상과 인심</span></a></li><li data-n="41" data-c="society" data-i="ㄴ" data-k="낭중지추" data-s="낭중지추 囊中之錐 주머니 속의 송곳. 재능 있는 사람은 숨어 있어도 저절로 드러남. 주머니 낭·가운데 중·갈 지·송곳 추 세상과 인심"><a href="041_낭중지추.html"><span class="num">041</span><span class="h">囊中之錐</span><span class="r">낭중지추</span><span class="m">주머니 속의 송곳. 재능 있는 사람은 숨어 있어도 저절로 드러남.</span><span class="tag">세상과 인심</span></a></li><li data-n="56" data-c="society" data-i="ㄷ" data-k="동상이몽" data-s="동상이몽 同床異夢 같은 침상에서 다른 꿈을 꾼다. 겉으로는 함께 행동하면서 속으로는 각기 딴생각을 함. 같을 동·평상 상·다를 이·꿈 몽 세상과 인심"><a href="056_동상이몽.html"><span class="num">056</span><span class="h">同床異夢</span><span class="r">동상이몽</span><span class="m">같은 침상에서 다른 꿈을 꾼다. 겉으로는 함께 행동하면서 속으로는 각기 딴생각을 함.</span><span class="tag">세상과 인심</span></a></li><li data-n="61" data-c="society" data-i="ㅎ" data-k="함흥차사" data-s="함흥차사 咸興差使 함흥으로 간 사신. 심부름 간 사람이 돌아오지 않거나 소식이 없음. 다 함·일 흥·보낼 차·사신 사 세상과 인심"><a href="061_함흥차사.html"><span class="num">061</span><span class="h">咸興差使</span><span class="r">함흥차사</span><span class="m">함흥으로 간 사신. 심부름 간 사람이 돌아오지 않거나 소식이 없음.</span><span class="tag">세상과 인심</span></a></li><li data-n="92" data-c="society" data-i="ㄱ" data-k="구우일모" data-s="구우일모 九牛一毛 아홉 마리 소 가운데 털 하나. 많은 것 중 극히 적은 부분. 아홉 구·소 우·한 일·털 모 세상과 인심"><a href="092_구우일모.html"><span class="num">092</span><span class="h">九牛一毛</span><span class="r">구우일모</span><span class="m">아홉 마리 소 가운데 털 하나. 많은 것 중 극히 적은 부분.</span><span class="tag">세상과 인심</span></a></li><li data-n="96" data-c="society" data-i="ㅅ" data-k="삼인성호" data-s="삼인성호 三人成虎 세 사람이 말하면 없는 호랑이도 만든다. 거짓말도 여러 사람이 하면 믿게 됨. 석 삼·사람 인·이룰 성·범 호 세상과 인심"><a href="096_삼인성호.html"><span class="num">096</span><span class="h">三人成虎</span><span class="r">삼인성호</span><span class="m">세 사람이 말하면 없는 호랑이도 만든다. 거짓말도 여러 사람이 하면 믿게 됨.</span><span class="tag">세상과 인심</span></a></li><li data-n="105" data-c="society" data-i="ㄱ" data-k="경국지색" data-s="경국지색 傾國之色 나라를 기울게 할 만한 미색. 임금이 정사를 잊을 만큼 아름다운 여인을 이르는 말. 기울 경·나라 국·갈 지·빛 색 세상과 인심"><a href="105_경국지색.html"><span class="num">105</span><span class="h">傾國之色</span><span class="r">경국지색</span><span class="m">나라를 기울게 할 만한 미색. 임금이 정사를 잊을 만큼 아름다운 여인을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="109" data-c="society" data-i="ㄱ" data-k="고장난명" data-s="고장난명 孤掌難鳴 한 손바닥으로는 소리를 내기 어렵다. 혼자서는 일을 이루기 어렵고, 다툼도 상대가 있어야 생긴다는 뜻. 외로울 고·손바닥 장·어려울 난·울 명 세상과 인심"><a href="109_고장난명.html"><span class="num">109</span><span class="h">孤掌難鳴</span><span class="r">고장난명</span><span class="m">한 손바닥으로는 소리를 내기 어렵다. 혼자서는 일을 이루기 어렵고, 다툼도 상대가 있어야 생긴다는 뜻.</span><span class="tag">세상과 인심</span></a></li><li data-n="110" data-c="society" data-i="ㄱ" data-k="골육상쟁" data-s="골육상쟁 骨肉相爭 뼈와 살이 서로 다툰다. 부모 형제나 같은 겨레처럼 가까운 사이가 서로 싸우는 것을 이른다. 뼈 골·고기 육·서로 상·다툴 쟁 세상과 인심"><a href="110_골육상쟁.html"><span class="num">110</span><span class="h">骨肉相爭</span><span class="r">골육상쟁</span><span class="m">뼈와 살이 서로 다툰다. 부모 형제나 같은 겨레처럼 가까운 사이가 서로 싸우는 것을 이른다.</span><span class="tag">세상과 인심</span></a></li><li data-n="123" data-c="society" data-i="ㄴ" data-k="난형난제" data-s="난형난제 難兄難弟 누구를 형이라 하고 누구를 아우라 하기 어렵다. 두 사람이나 두 사물이 비슷하여 우열을 가리기 어렵다는 뜻. 어려울 난·맏 형·어려울 난·아우 제 세상과 인심"><a href="123_난형난제.html"><span class="num">123</span><span class="h">難兄難弟</span><span class="r">난형난제</span><span class="m">누구를 형이라 하고 누구를 아우라 하기 어렵다. 두 사람이나 두 사물이 비슷하여 우열을 가리기 어렵다는 뜻.</span><span class="tag">세상과 인심</span></a></li><li data-n="129" data-c="society" data-i="ㄷ" data-k="도탄지고" data-s="도탄지고 塗炭之苦 진흙탕에 빠지고 숯불에 타는 괴로움. 백성이 가혹한 정치나 전란으로 몹시 고통받는 처지를 이른다. 진흙 도·숯 탄·갈 지·괴로울 고 세상과 인심"><a href="129_도탄지고.html"><span class="num">129</span><span class="h">塗炭之苦</span><span class="r">도탄지고</span><span class="m">진흙탕에 빠지고 숯불에 타는 괴로움. 백성이 가혹한 정치나 전란으로 몹시 고통받는 처지를 이른다.</span><span class="tag">세상과 인심</span></a></li><li data-n="150" data-c="society" data-i="ㅂ" data-k="백면서생" data-s="백면서생 白面書生 얼굴이 흰 글방 선비. 글만 읽어 세상일에 경험이 없는 사람을 이르는 말. 흰 백·낯 면·글 서·날 생 세상과 인심"><a href="150_백면서생.html"><span class="num">150</span><span class="h">白面書生</span><span class="r">백면서생</span><span class="m">얼굴이 흰 글방 선비. 글만 읽어 세상일에 경험이 없는 사람을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="175" data-c="society" data-i="ㅇ" data-k="약육강식" data-s="약육강식 弱肉強食 약한 자는 고기가 되고 강한 자는 그것을 먹는다. 힘센 쪽이 약한 쪽을 지배하는 냉혹한 질서를 뜻한다. 약할 약·고기 육·강할 강·먹을 식 세상과 인심"><a href="175_약육강식.html"><span class="num">175</span><span class="h">弱肉強食</span><span class="r">약육강식</span><span class="m">약한 자는 고기가 되고 강한 자는 그것을 먹는다. 힘센 쪽이 약한 쪽을 지배하는 냉혹한 질서를 뜻한다.</span><span class="tag">세상과 인심</span></a></li><li data-n="177" data-c="society" data-i="ㅇ" data-k="양상군자" data-s="양상군자 梁上君子 들보 위의 군자. 도둑을 점잖게 돌려 이르는 말. 들보 량·위 상·임금 군·아들 자 세상과 인심"><a href="177_양상군자.html"><span class="num">177</span><span class="h">梁上君子</span><span class="r">양상군자</span><span class="m">들보 위의 군자. 도둑을 점잖게 돌려 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="186" data-c="society" data-i="ㅇ" data-k="우후죽순" data-s="우후죽순 雨後竹筍 비 온 뒤에 돋는 죽순. 어떤 일이 한때에 여기저기서 한꺼번에 많이 생겨남을 이르는 말. 비 우·뒤 후·대 죽·죽순 순 세상과 인심"><a href="186_우후죽순.html"><span class="num">186</span><span class="h">雨後竹筍</span><span class="r">우후죽순</span><span class="m">비 온 뒤에 돋는 죽순. 어떤 일이 한때에 여기저기서 한꺼번에 많이 생겨남을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="188" data-c="society" data-i="ㅇ" data-k="유유상종" data-s="유유상종 類類相從 같은 무리끼리 서로 따른다. 비슷한 사람들끼리 어울려 사귄다는 뜻. 무리 유·무리 유·서로 상·좇을 종 세상과 인심"><a href="188_유유상종.html"><span class="num">188</span><span class="h">類類相從</span><span class="r">유유상종</span><span class="m">같은 무리끼리 서로 따른다. 비슷한 사람들끼리 어울려 사귄다는 뜻.</span><span class="tag">세상과 인심</span></a></li><li data-n="190" data-c="society" data-i="ㅇ" data-k="이구동성" data-s="이구동성 異口同聲 입은 다르나 소리는 같다. 여러 사람이 한목소리로 같은 말을 한다는 뜻. 다를 이·입 구·같을 동·소리 성 세상과 인심"><a href="190_이구동성.html"><span class="num">190</span><span class="h">異口同聲</span><span class="r">이구동성</span><span class="m">입은 다르나 소리는 같다. 여러 사람이 한목소리로 같은 말을 한다는 뜻.</span><span class="tag">세상과 인심</span></a></li><li data-n="191" data-c="society" data-i="ㅇ" data-k="이전투구" data-s="이전투구 泥田鬪狗 진흙탕에서 싸우는 개. 명분 없이 볼썽사납게 이익을 다투는 모습을 이르는 말. 진흙 니·밭 전·싸울 투·개 구 세상과 인심"><a href="191_이전투구.html"><span class="num">191</span><span class="h">泥田鬪狗</span><span class="r">이전투구</span><span class="m">진흙탕에서 싸우는 개. 명분 없이 볼썽사납게 이익을 다투는 모습을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="193" data-c="society" data-i="ㅇ" data-k="인산인해" data-s="인산인해 人山人海 사람이 산을 이루고 바다를 이룬다. 헤아릴 수 없이 많은 사람이 모인 모습을 이르는 말. 사람 인·뫼 산·사람 인·바다 해 세상과 인심"><a href="193_인산인해.html"><span class="num">193</span><span class="h">人山人海</span><span class="r">인산인해</span><span class="m">사람이 산을 이루고 바다를 이룬다. 헤아릴 수 없이 많은 사람이 모인 모습을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="196" data-c="society" data-i="ㅇ" data-k="일어탁수" data-s="일어탁수 一魚濁水 물고기 한 마리가 물을 흐린다. 한 사람의 잘못으로 여러 사람이 피해를 입는다는 뜻. 한 일·고기 어·흐릴 탁·물 수 세상과 인심"><a href="196_일어탁수.html"><span class="num">196</span><span class="h">一魚濁水</span><span class="r">일어탁수</span><span class="m">물고기 한 마리가 물을 흐린다. 한 사람의 잘못으로 여러 사람이 피해를 입는다는 뜻.</span><span class="tag">세상과 인심</span></a></li><li data-n="208" data-c="society" data-i="ㅈ" data-k="조령모개" data-s="조령모개 朝令暮改 아침에 내린 명령을 저녁에 고친다. 법령이나 방침이 자주 바뀌어 갈피를 잡기 어렵다는 뜻. 아침 조·하여금 령·저물 모·고칠 개 세상과 인심"><a href="208_조령모개.html"><span class="num">208</span><span class="h">朝令暮改</span><span class="r">조령모개</span><span class="m">아침에 내린 명령을 저녁에 고친다. 법령이나 방침이 자주 바뀌어 갈피를 잡기 어렵다는 뜻.</span><span class="tag">세상과 인심</span></a></li><li data-n="209" data-c="society" data-i="ㅈ" data-k="조족지혈" data-s="조족지혈 鳥足之血 새 발의 피. 양이 아주 적거나 하찮아서 문제 삼을 것이 못 된다는 뜻. 새 조·발 족·갈 지·피 혈 세상과 인심"><a href="209_조족지혈.html"><span class="num">209</span><span class="h">鳥足之血</span><span class="r">조족지혈</span><span class="m">새 발의 피. 양이 아주 적거나 하찮아서 문제 삼을 것이 못 된다는 뜻.</span><span class="tag">세상과 인심</span></a></li><li data-n="214" data-c="society" data-i="ㅈ" data-k="중구난방" data-s="중구난방 衆口難防 여러 사람의 입은 막기 어렵다. 많은 사람이 저마다 떠들어 대는 말은 막을 수 없다는 뜻으로, 마구 지껄이는 상태도 이른다. 무리 중·입 구·어려울 난·막을 방 세상과 인심"><a href="214_중구난방.html"><span class="num">214</span><span class="h">衆口難防</span><span class="r">중구난방</span><span class="m">여러 사람의 입은 막기 어렵다. 많은 사람이 저마다 떠들어 대는 말은 막을 수 없다는 뜻으로, 마구 지껄이는 상태도 이른다.</span><span class="tag">세상과 인심</span></a></li><li data-n="223" data-c="society" data-i="ㅊ" data-k="천편일률" data-s="천편일률 千篇一律 천 편의 글이 모두 한 가지 가락이다. 여럿이 개성 없이 서로 비슷비슷하다는 뜻. 일천 천·책 편·한 일·법 률 세상과 인심"><a href="223_천편일률.html"><span class="num">223</span><span class="h">千篇一律</span><span class="r">천편일률</span><span class="m">천 편의 글이 모두 한 가지 가락이다. 여럿이 개성 없이 서로 비슷비슷하다는 뜻.</span><span class="tag">세상과 인심</span></a></li><li data-n="244" data-c="society" data-i="ㄱ" data-k="가렴주구" data-s="가렴주구 苛斂誅求 가혹하게 거두어들이고 무리하게 빼앗는다. 세금을 혹독하게 매겨 백성을 못살게 구는 정치를 이르는 말. 가혹할 가·거둘 렴·벨 주·구할 구 세상과 인심"><a href="244_가렴주구.html"><span class="num">244</span><span class="h">苛斂誅求</span><span class="r">가렴주구</span><span class="m">가혹하게 거두어들이고 무리하게 빼앗는다. 세금을 혹독하게 매겨 백성을 못살게 구는 정치를 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="247" data-c="society" data-i="ㄱ" data-k="개세지재" data-s="개세지재 蓋世之才 세상을 덮을 만한 재주. 온 세상을 압도할 만큼 뛰어난 재능이나 그런 재능을 가진 사람을 이르는 말. 덮을 개·인간 세·갈 지·재주 재 세상과 인심"><a href="247_개세지재.html"><span class="num">247</span><span class="h">蓋世之才</span><span class="r">개세지재</span><span class="m">세상을 덮을 만한 재주. 온 세상을 압도할 만큼 뛰어난 재능이나 그런 재능을 가진 사람을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="248" data-c="society" data-i="ㄱ" data-k="견원지간" data-s="견원지간 犬猿之間 개와 원숭이의 사이. 서로 만나기만 하면 으르렁거리는 몹시 나쁜 관계를 이르는 말. 개 견·원숭이 원·갈 지·사이 간 세상과 인심"><a href="248_견원지간.html"><span class="num">248</span><span class="h">犬猿之間</span><span class="r">견원지간</span><span class="m">개와 원숭이의 사이. 서로 만나기만 하면 으르렁거리는 몹시 나쁜 관계를 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="250" data-c="society" data-i="ㄱ" data-k="경천동지" data-s="경천동지 驚天動地 하늘을 놀라게 하고 땅을 뒤흔든다. 세상을 크게 놀라게 할 만한 엄청난 일을 이르는 말. 놀랄 경·하늘 천·움직일 동·땅 지 세상과 인심"><a href="250_경천동지.html"><span class="num">250</span><span class="h">驚天動地</span><span class="r">경천동지</span><span class="m">하늘을 놀라게 하고 땅을 뒤흔든다. 세상을 크게 놀라게 할 만한 엄청난 일을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="252" data-c="society" data-i="ㄱ" data-k="고복격양" data-s="고복격양 鼓腹擊壤 배를 두드리고 땅을 친다. 배불리 먹고 흥겹게 노래할 만큼 살기 좋은 태평한 세상을 이르는 말. 북 고·배 복·칠 격·흙 양 세상과 인심"><a href="252_고복격양.html"><span class="num">252</span><span class="h">鼓腹擊壤</span><span class="r">고복격양</span><span class="m">배를 두드리고 땅을 친다. 배불리 먹고 흥겹게 노래할 만큼 살기 좋은 태평한 세상을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="259" data-c="society" data-i="ㄴ" data-k="낙양지귀" data-s="낙양지귀 洛陽紙貴 낙양의 종이값이 오른다. 어떤 책이 크게 인기를 끌어 널리 읽힌다는 뜻. 물 이름 락·볕 양·종이 지·귀할 귀 세상과 인심"><a href="259_낙양지귀.html"><span class="num">259</span><span class="h">洛陽紙貴</span><span class="r">낙양지귀</span><span class="m">낙양의 종이값이 오른다. 어떤 책이 크게 인기를 끌어 널리 읽힌다는 뜻.</span><span class="tag">세상과 인심</span></a></li><li data-n="264" data-c="society" data-i="ㄷ" data-k="도불습유" data-s="도불습유 道不拾遺 길에 떨어진 것을 줍지 않는다. 나라가 잘 다스려져 백성의 풍속이 아름답고 살림이 넉넉함을 이르는 말. 길 도·아닐 불·주울 습·남길 유 세상과 인심"><a href="264_도불습유.html"><span class="num">264</span><span class="h">道不拾遺</span><span class="r">도불습유</span><span class="m">길에 떨어진 것을 줍지 않는다. 나라가 잘 다스려져 백성의 풍속이 아름답고 살림이 넉넉함을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="276" data-c="society" data-i="ㅅ" data-k="상부상조" data-s="상부상조 相扶相助 서로 붙들어 주고 서로 돕는다. 이웃끼리 어려움을 나누며 힘을 모아 살아가는 것을 이르는 말. 서로 상·붙들 부·서로 상·도울 조 세상과 인심"><a href="276_상부상조.html"><span class="num">276</span><span class="h">相扶相助</span><span class="r">상부상조</span><span class="m">서로 붙들어 주고 서로 돕는다. 이웃끼리 어려움을 나누며 힘을 모아 살아가는 것을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="278" data-c="society" data-i="ㅅ" data-k="송구영신" data-s="송구영신 送舊迎新 묵은 것을 보내고 새것을 맞는다. 묵은해를 보내고 새해를 맞이함을 이르는 말. 보낼 송·옛 구·맞을 영·새 신 세상과 인심"><a href="278_송구영신.html"><span class="num">278</span><span class="h">送舊迎新</span><span class="r">송구영신</span><span class="m">묵은 것을 보내고 새것을 맞는다. 묵은해를 보내고 새해를 맞이함을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="282" data-c="society" data-i="ㅇ" data-k="안거낙업" data-s="안거낙업 安居樂業 편안히 살면서 즐겁게 일한다. 백성이 안정된 삶터에서 생업을 즐기는 태평한 세상을 이르는 말. 편안할 안·살 거·즐길 락·업 업 세상과 인심"><a href="282_안거낙업.html"><span class="num">282</span><span class="h">安居樂業</span><span class="r">안거낙업</span><span class="m">편안히 살면서 즐겁게 일한다. 백성이 안정된 삶터에서 생업을 즐기는 태평한 세상을 이르는 말.</span><span class="tag">세상과 인심</span></a></li><li data-n="292" data-c="society" data-i="ㅁ" data-k="명불허전" data-s="명불허전 名不虛傳 이름이 헛되이 전해진 것이 아니다. 널리 알려진 명성이 실제로 확인될 만큼 실력이 있다는 뜻. 이름 명·아닐 불·빌 허·전할 전 세상과 인심"><a href="292_명불허전.html"><span class="num">292</span><span class="h">名不虛傳</span><span class="r">명불허전</span><span class="m">이름이 헛되이 전해진 것이 아니다. 널리 알려진 명성이 실제로 확인될 만큼 실력이 있다는 뜻.</span><span class="tag">세상과 인심</span></a></li></ul>
-<footer class="foot"><span>사자성어 이야기 · 300편 · 매일 한 편씩 더합니다</span><span><a href="index.html">목록</a> · <a href="sitemap.xml">sitemap</a></span></footer></main></body></html>
+<footer class="foot"><span>사자성어 이야기 · 300편 · 매일 한 편씩 더합니다</span><span><a href="index.html">목록</a> · <a href="sitemap.xml">sitemap</a></span></footer><script>(function(){
+  var bar=document.querySelector('.share');if(!bar)return;
+  var d=bar.dataset,msg=bar.querySelector('.share-msg'),timer;
+  var isIdiom=!!d.h;
+  function url(){return location.href.split('#')[0]+(isIdiom?'':location.hash);}
+  function title(){return isIdiom?(d.h+'('+d.j+') 뜻과 유래 — 사자성어 이야기'):document.title;}
+  function text(){
+    if(isIdiom)return d.h+'('+d.j+')\n'+d.m+'\n출전 · '+d.o+'\n— 사자성어 이야기\n'+url();
+    return document.title+'\n'+url();
+  }
+  function say(t){msg.textContent=t;clearTimeout(timer);timer=setTimeout(function(){msg.textContent=''},2200);}
+  function copy(t,ok){
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){say(ok)},function(){fallback(t,ok)});}
+    else fallback(t,ok);
+  }
+  function fallback(t,ok){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');say(ok)}catch(e){say('복사가 막혀 있습니다. 주소창에서 복사해 주세요.')}document.body.removeChild(ta);}
+
+  // ── 이미지 카드 ──
+  function wrap(ctx,s,x,y,maxW,lh,font,color,maxLines){
+    ctx.font=font;ctx.fillStyle=color;var line='',lines=[];
+    for(var i=0;i<s.length;i++){var t=line+s[i];if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=s[i]}else line=t}
+    if(line)lines.push(line);
+    if(maxLines&&lines.length>maxLines){lines=lines.slice(0,maxLines);lines[maxLines-1]=lines[maxLines-1].replace(/.$/,'…')}
+    lines.forEach(function(l,k){ctx.fillText(l,x,y+k*lh)});return y+lines.length*lh;
+  }
+  function draw(){
+    var W=1200,H=630,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');
+    var g=x.createRadialGradient(240,60,20,240,60,900);g.addColorStop(0,'#F4F6F2');g.addColorStop(1,'#E9ECE6');
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    x.strokeStyle='#1F2A2E';x.lineWidth=3;x.strokeRect(36,36,W-72,H-72);
+    x.fillStyle='#4F5C61';x.font='400 24px "Noto Serif KR",serif';x.textBaseline='top';
+    x.fillText('사자성어 이야기 · '+d.c,80,72);
+    // 한자
+    var hf='900 150px "Noto Serif KR",serif';x.font=hf;x.fillStyle='#1F2A2E';
+    x.fillText(d.j,76,130);
+    var jw=x.measureText(d.j).width;
+    // 도장
+    var sx=76+jw+28,sy=150;x.fillStyle='#B8312F';x.fillRect(sx,sy,58,4*44+22);
+    x.fillStyle='#fff';x.font='600 30px "Noto Serif KR",serif';x.textAlign='center';
+    for(var i=0;i<4;i++)x.fillText(d.h[i],sx+29,sy+12+i*44);
+    x.textAlign='left';
+    // 훈음
+    x.fillStyle='#4F5C61';x.font='400 26px "Noto Serif KR",serif';x.fillText(d.l,80,312);
+    // 뜻
+    var yy=wrap(x,d.m,80,364,W-160,50,'400 34px "Noto Serif KR",serif','#1F2A2E',3);
+    // 출전
+    x.fillStyle='#4F5C61';x.font='400 22px "Noto Serif KR",serif';x.fillText('출전 · '+d.o,80,Math.min(yy+18,H-130));
+    // 아래 줄
+    x.fillStyle='#B9C2BE';x.fillRect(80,H-96,W-160,1);
+    var shown=url();try{shown=decodeURIComponent(shown)}catch(e){}
+    x.fillStyle='#4F5C61';x.font='400 22px "Noto Serif KR",serif';x.fillText(shown.replace(/^https?:\/\//,''),80,H-80);
+    return c;
+  }
+  function toBlob(c){return new Promise(function(r){c.toBlob(r,'image/png')})}
+  function image(){
+    say('이미지를 만드는 중…');
+    var loads=[document.fonts?document.fonts.load('900 150px "Noto Serif KR"'):null,document.fonts?document.fonts.load('400 34px "Noto Serif KR"'):null,document.fonts?document.fonts.load('600 30px "Noto Serif KR"'):null].filter(Boolean);
+    Promise.all(loads).catch(function(){}).then(function(){
+      var c=draw();
+      var box=document.createElement('div');box.className='share-modal';
+      box.innerHTML='<div class="share-card"><img alt="'+d.h+' 공유 이미지"><div class="share-card-b"><button data-k="save">이미지 저장</button><button data-k="share" hidden>이미지 공유</button><button data-k="close">닫기</button></div><p class="share-hint">길게 눌러 저장하거나, 저장 버튼을 누르세요.</p></div>';
+      box.querySelector('img').src=c.toDataURL('image/png');
+      document.body.appendChild(box);
+      var name=d.h+'_'+d.j+'.png';
+      toBlob(c).then(function(b){
+        var f=new File([b],name,{type:'image/png'});
+        var sb=box.querySelector('[data-k=share]');
+        if(navigator.canShare&&navigator.canShare({files:[f]})){sb.hidden=false;sb.onclick=function(){navigator.share({files:[f],title:title(),text:d.h+'('+d.j+') '+d.m,url:url()}).catch(function(){})}}
+        box.querySelector('[data-k=save]').onclick=function(){var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);say('이미지를 저장했습니다.')};
+      });
+      box.querySelector('[data-k=close]').onclick=function(){box.remove()};
+      box.addEventListener('click',function(e){if(e.target===box)box.remove()});
+      say('');
+    });
+  }
+
+  // ── 버튼 ──
+  var nb=bar.querySelector('[data-act=native]');
+  if(navigator.share){nb.hidden=false}
+  bar.addEventListener('click',function(e){
+    var b=e.target.closest('[data-act]');if(!b)return;
+    var act=b.dataset.act;
+    if(act==='native'){navigator.share({title:title(),text:isIdiom?(d.h+'('+d.j+') '+d.m):document.title,url:url()}).catch(function(){});}
+    else if(act==='link')copy(url(),'링크를 복사했습니다.');
+    else if(act==='text')copy(text(),'글을 복사했습니다. 붙여넣기 하세요.');
+    else if(act==='image')image();
+    else if(act==='x')window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(isIdiom?(d.h+'('+d.j+') '+d.m):document.title)+'&url='+encodeURIComponent(url()),'_blank','noopener');
+    else if(act==='fb')window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url()),'_blank','noopener');
+  });
+})();
+</script></main></body></html>

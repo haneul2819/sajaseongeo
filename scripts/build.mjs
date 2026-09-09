@@ -19,6 +19,8 @@ const SITE_TITLE = CONFIG.site?.title ?? '사자성어 이야기';
 const AUTHOR = CONFIG.site?.author ?? '';
 const PAGE_CSS = readFileSync(join(ROOT, 'scripts', 'page.css'), 'utf-8');
 const SITE_CSS = readFileSync(join(ROOT, 'scripts', 'site.css'), 'utf-8');
+const SHARE_JS = readFileSync(join(ROOT, 'scripts', 'share.js'), 'utf-8');
+const shareBar = (data = '') => `<div class="share"${data}><span class="share-t">공유하기</span><button data-act="native" hidden>기기로 공유</button><button data-act="link">링크 복사</button><button data-act="text">글로 복사</button>${data ? '<button data-act="image">이미지 카드</button>' : ''}<button data-act="x" class="x">X</button><button data-act="fb" class="x">페이스북</button><span class="share-msg" aria-live="polite"></span></div>`;
 
 const esc = (s) => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -137,11 +139,12 @@ function renderPage(i, prev, next, list, byCat) {
 <h2>이렇게 씁니다</h2>
 <ul class="ex">${i.examples.map((e) => `<li>${esc(e)}</li>`).join('')}</ul>
 </article>
+${shareBar(` data-h="${esc(i.hangul)}" data-j="${esc(i.hanja)}" data-m="${esc(i.meaning)}" data-l="${esc(i.lit)}" data-o="${esc(i.origin)}" data-c="${esc(cat.name)}"`)}
 ${related.length ? `<h2>같은 갈래의 이야기 <a class="cat" href="${catFile(cat.slug)}" style="font-size:13px;font-weight:400">${esc(cat.name)} 전체 →</a></h2>
 <ul class="rel">${related.map((r) => `<li><a href="${fileOf(r)}"><span class="h">${esc(r.hanja)}</span><span class="r">${esc(r.hangul)}</span></a></li>`).join('')}</ul>` : ''}
 <nav class="nav">${prevLink}${nextLink}</nav>
 ${footer(list)}
-</main></body></html>`;
+</main><script>${SHARE_JS}</script></body></html>`;
 }
 
 // ── 목록 항목 ────────────────────────────────────────────────────────────
@@ -172,6 +175,7 @@ function renderIndex(list, byCat) {
   <p class="lit">유래와 뜻, 오늘의 쓰임을 함께 담았습니다. 매일 한 편씩 더해 갑니다.</p>
   <div class="stats"><span><b>${list.length}</b>편</span><span><b>${CATEGORIES.length}</b>갈래</span><span><b>${latest[0].date}</b>마지막 갱신</span></div>
 </header>
+<div class="top-share">${shareBar()}</div>
 <section class="find" aria-label="찾기">
   <input id="q" type="search" placeholder="사자성어 · 한자 · 뜻으로 찾기  (예: 우정, 苦, 새옹지마)" autocomplete="off" aria-label="검색">
   <div class="chips" id="cats"><button data-c="" class="on">전체 <small>${list.length}</small></button>${CATEGORIES.map((c) => `<button data-c="${c.slug}">${esc(c.name)} <small>${byCat[c.slug].length}</small></button>`).join('')}</div>
@@ -224,7 +228,7 @@ ${footer(list)}
       on('cats','data-c',cat);on('ini','data-i',ini);apply();}
   }catch(e){}
 })();
-</script>`;
+</script><script>${SHARE_JS}</script>`;
   return `${head({ title: `${SITE_TITLE} — 사자성어 ${list.length}편의 뜻과 유래`, description, url: `${SITE}/`, css: PAGE_CSS + SITE_CSS, jsonLd })}<main class="wrap wide">${body}</main></body></html>`;
 }
 
@@ -248,9 +252,10 @@ function renderCategory(c, items, list) {
   <h1>${esc(c.name)}</h1>
   <p class="lit">${esc(c.desc)} · ${items.length}편</p>
 </header>
+<div class="top-share">${shareBar()}</div>
 <div class="chips" style="margin-bottom:18px">${CATEGORIES.map((x) => x.slug === c.slug ? `<button class="on" disabled>${esc(x.name)}</button>` : `<a href="${catFile(x.slug)}">${esc(x.name)}</a>`).join('')}</div>
 <ul class="list">${items.map((i) => item(i)).join('')}</ul>
-${footer(list)}`;
+${footer(list)}<script>${SHARE_JS}</script>`;
   return `${head({ title, description, url, css: PAGE_CSS + SITE_CSS, jsonLd })}<main class="wrap wide">${body}</main></body></html>`;
 }
 

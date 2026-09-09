@@ -100,10 +100,27 @@ h2::after{content:"";flex:1;height:1px;background:var(--ash)}
 .sec-h::after{content:"";flex:1;height:1px;background:var(--ash)}
 .sec-h small{font-size:12px;font-weight:400;color:var(--ink-soft)}
 @media(max-width:560px){
-  .list li a{grid-template-columns:36px 1fr auto;grid-template-rows:auto auto}
-  .list .h{grid-column:2}.list .tag{grid-column:3;grid-row:1}.list .m{grid-column:2/4}.list .r{display:none}
+  .list li a{grid-template-columns:36px auto 1fr auto;grid-template-rows:auto auto;gap:6px 10px}
+  .list .h{grid-column:2;font-size:19px}.list .r{grid-column:3;font-size:14px;align-self:baseline}.list .tag{grid-column:4;grid-row:1}.list .m{grid-column:2/5}
   .site-head h1{font-size:28px}
 }
+
+/* ── 공유 ── */
+.share{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:28px;padding:12px 14px;border:1px dashed var(--ash);border-radius:4px;background:rgba(255,255,255,.3)}
+.share-t{font-size:13px;color:var(--ink-soft);margin-right:6px}
+.share button{font:inherit;font-size:13px;padding:6px 12px;border:1px solid var(--ink);border-radius:20px;background:transparent;color:var(--ink);cursor:pointer;line-height:1.4}
+.share button:hover{background:var(--ink);color:var(--paper)}
+.share button.x{border-color:var(--ash);color:var(--ink-soft)}
+.share-msg{font-size:12px;color:var(--seal);margin-left:4px;min-height:1em}
+.share-modal{position:fixed;inset:0;background:rgba(31,42,46,.6);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.share-card{background:var(--paper);padding:14px;border-radius:6px;max-width:640px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.share-card img{width:100%;height:auto;display:block;border:1px solid var(--ash)}
+.share-card-b{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.share-card-b button{font:inherit;font-size:14px;padding:8px 16px;border:1.5px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);cursor:pointer}
+.share-card-b button:hover{background:var(--ink);color:var(--paper)}
+.share-hint{font-size:12px;color:var(--ink-soft);text-align:center;margin-top:8px}
+.top-share{margin:-8px 0 18px}
+.top-share .share{margin-top:0;padding:8px 12px}
 </style></head><body><main class="wrap">
 <div class="top"><span>사자성어 이야기 204 / 300 · <a class="cat" href="category-folly.html">어리석음과 경계</a></span><a href="index.html">목록으로</a></div>
 <article>
@@ -123,8 +140,99 @@ h2::after{content:"";flex:1;height:1px;background:var(--ash)}
 <h2>이렇게 씁니다</h2>
 <ul class="ex"><li>새해 운동 계획이 또 작심삼일로 끝나 헬스장 회원권만 남았다.</li><li>작심삼일이 되지 않도록 친구와 매일 공부 인증을 하기로 했다.</li></ul>
 </article>
+<div class="share" data-h="작심삼일" data-j="作心三日" data-m="마음먹은 것이 사흘을 가지 못한다. 결심이 굳지 못해 얼마 지나지 않아 흐지부지되는 것을 이른다." data-l="지을 작·마음 심·석 삼·날 일" data-o="특정 출전 없이 널리 쓰이는 관용 성어" data-c="어리석음과 경계"><span class="share-t">공유하기</span><button data-act="native" hidden>기기로 공유</button><button data-act="link">링크 복사</button><button data-act="text">글로 복사</button><button data-act="image">이미지 카드</button><button data-act="x" class="x">X</button><button data-act="fb" class="x">페이스북</button><span class="share-msg" aria-live="polite"></span></div>
 <h2>같은 갈래의 이야기 <a class="cat" href="category-folly.html" style="font-size:13px;font-weight:400">어리석음과 경계 전체 →</a></h2>
 <ul class="rel"><li><a href="212_주객전도.html"><span class="h">主客顚倒</span><span class="r">주객전도</span></a></li><li><a href="227_침소봉대.html"><span class="h">針小棒大</span><span class="r">침소봉대</span></a></li><li><a href="229_탁상공론.html"><span class="h">卓上空論</span><span class="r">탁상공론</span></a></li><li><a href="230_표리부동.html"><span class="h">表裏不同</span><span class="r">표리부동</span></a></li><li><a href="242_후안무치.html"><span class="h">厚顔無恥</span><span class="r">후안무치</span></a></li><li><a href="249_경거망동.html"><span class="h">輕擧妄動</span><span class="r">경거망동</span></a></li></ul>
 <nav class="nav"><a href="203_자중지란.html" rel="prev">← 자중지란</a><a href="205_전전긍긍.html" rel="next">전전긍긍 →</a></nav>
 <footer class="foot"><span>사자성어 이야기 · 300편 · 매일 한 편씩 더합니다</span><span><a href="index.html">목록</a> · <a href="sitemap.xml">sitemap</a></span></footer>
-</main></body></html>
+</main><script>(function(){
+  var bar=document.querySelector('.share');if(!bar)return;
+  var d=bar.dataset,msg=bar.querySelector('.share-msg'),timer;
+  var isIdiom=!!d.h;
+  function url(){return location.href.split('#')[0]+(isIdiom?'':location.hash);}
+  function title(){return isIdiom?(d.h+'('+d.j+') 뜻과 유래 — 사자성어 이야기'):document.title;}
+  function text(){
+    if(isIdiom)return d.h+'('+d.j+')\n'+d.m+'\n출전 · '+d.o+'\n— 사자성어 이야기\n'+url();
+    return document.title+'\n'+url();
+  }
+  function say(t){msg.textContent=t;clearTimeout(timer);timer=setTimeout(function(){msg.textContent=''},2200);}
+  function copy(t,ok){
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){say(ok)},function(){fallback(t,ok)});}
+    else fallback(t,ok);
+  }
+  function fallback(t,ok){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');say(ok)}catch(e){say('복사가 막혀 있습니다. 주소창에서 복사해 주세요.')}document.body.removeChild(ta);}
+
+  // ── 이미지 카드 ──
+  function wrap(ctx,s,x,y,maxW,lh,font,color,maxLines){
+    ctx.font=font;ctx.fillStyle=color;var line='',lines=[];
+    for(var i=0;i<s.length;i++){var t=line+s[i];if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=s[i]}else line=t}
+    if(line)lines.push(line);
+    if(maxLines&&lines.length>maxLines){lines=lines.slice(0,maxLines);lines[maxLines-1]=lines[maxLines-1].replace(/.$/,'…')}
+    lines.forEach(function(l,k){ctx.fillText(l,x,y+k*lh)});return y+lines.length*lh;
+  }
+  function draw(){
+    var W=1200,H=630,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');
+    var g=x.createRadialGradient(240,60,20,240,60,900);g.addColorStop(0,'#F4F6F2');g.addColorStop(1,'#E9ECE6');
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    x.strokeStyle='#1F2A2E';x.lineWidth=3;x.strokeRect(36,36,W-72,H-72);
+    x.fillStyle='#4F5C61';x.font='400 24px "Noto Serif KR",serif';x.textBaseline='top';
+    x.fillText('사자성어 이야기 · '+d.c,80,72);
+    // 한자
+    var hf='900 150px "Noto Serif KR",serif';x.font=hf;x.fillStyle='#1F2A2E';
+    x.fillText(d.j,76,130);
+    var jw=x.measureText(d.j).width;
+    // 도장
+    var sx=76+jw+28,sy=150;x.fillStyle='#B8312F';x.fillRect(sx,sy,58,4*44+22);
+    x.fillStyle='#fff';x.font='600 30px "Noto Serif KR",serif';x.textAlign='center';
+    for(var i=0;i<4;i++)x.fillText(d.h[i],sx+29,sy+12+i*44);
+    x.textAlign='left';
+    // 훈음
+    x.fillStyle='#4F5C61';x.font='400 26px "Noto Serif KR",serif';x.fillText(d.l,80,312);
+    // 뜻
+    var yy=wrap(x,d.m,80,364,W-160,50,'400 34px "Noto Serif KR",serif','#1F2A2E',3);
+    // 출전
+    x.fillStyle='#4F5C61';x.font='400 22px "Noto Serif KR",serif';x.fillText('출전 · '+d.o,80,Math.min(yy+18,H-130));
+    // 아래 줄
+    x.fillStyle='#B9C2BE';x.fillRect(80,H-96,W-160,1);
+    var shown=url();try{shown=decodeURIComponent(shown)}catch(e){}
+    x.fillStyle='#4F5C61';x.font='400 22px "Noto Serif KR",serif';x.fillText(shown.replace(/^https?:\/\//,''),80,H-80);
+    return c;
+  }
+  function toBlob(c){return new Promise(function(r){c.toBlob(r,'image/png')})}
+  function image(){
+    say('이미지를 만드는 중…');
+    var loads=[document.fonts?document.fonts.load('900 150px "Noto Serif KR"'):null,document.fonts?document.fonts.load('400 34px "Noto Serif KR"'):null,document.fonts?document.fonts.load('600 30px "Noto Serif KR"'):null].filter(Boolean);
+    Promise.all(loads).catch(function(){}).then(function(){
+      var c=draw();
+      var box=document.createElement('div');box.className='share-modal';
+      box.innerHTML='<div class="share-card"><img alt="'+d.h+' 공유 이미지"><div class="share-card-b"><button data-k="save">이미지 저장</button><button data-k="share" hidden>이미지 공유</button><button data-k="close">닫기</button></div><p class="share-hint">길게 눌러 저장하거나, 저장 버튼을 누르세요.</p></div>';
+      box.querySelector('img').src=c.toDataURL('image/png');
+      document.body.appendChild(box);
+      var name=d.h+'_'+d.j+'.png';
+      toBlob(c).then(function(b){
+        var f=new File([b],name,{type:'image/png'});
+        var sb=box.querySelector('[data-k=share]');
+        if(navigator.canShare&&navigator.canShare({files:[f]})){sb.hidden=false;sb.onclick=function(){navigator.share({files:[f],title:title(),text:d.h+'('+d.j+') '+d.m,url:url()}).catch(function(){})}}
+        box.querySelector('[data-k=save]').onclick=function(){var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);say('이미지를 저장했습니다.')};
+      });
+      box.querySelector('[data-k=close]').onclick=function(){box.remove()};
+      box.addEventListener('click',function(e){if(e.target===box)box.remove()});
+      say('');
+    });
+  }
+
+  // ── 버튼 ──
+  var nb=bar.querySelector('[data-act=native]');
+  if(navigator.share){nb.hidden=false}
+  bar.addEventListener('click',function(e){
+    var b=e.target.closest('[data-act]');if(!b)return;
+    var act=b.dataset.act;
+    if(act==='native'){navigator.share({title:title(),text:isIdiom?(d.h+'('+d.j+') '+d.m):document.title,url:url()}).catch(function(){});}
+    else if(act==='link')copy(url(),'링크를 복사했습니다.');
+    else if(act==='text')copy(text(),'글을 복사했습니다. 붙여넣기 하세요.');
+    else if(act==='image')image();
+    else if(act==='x')window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(isIdiom?(d.h+'('+d.j+') '+d.m):document.title)+'&url='+encodeURIComponent(url()),'_blank','noopener');
+    else if(act==='fb')window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url()),'_blank','noopener');
+  });
+})();
+</script></body></html>

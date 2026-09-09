@@ -56,7 +56,24 @@
 .sec-h::after{content:"";flex:1;height:1px;background:var(--ash)}
 .sec-h small{font-size:12px;font-weight:400;color:var(--ink-soft)}
 @media(max-width:560px){
-  .list li a{grid-template-columns:36px 1fr auto;grid-template-rows:auto auto}
-  .list .h{grid-column:2}.list .tag{grid-column:3;grid-row:1}.list .m{grid-column:2/4}.list .r{display:none}
+  .list li a{grid-template-columns:36px auto 1fr auto;grid-template-rows:auto auto;gap:6px 10px}
+  .list .h{grid-column:2;font-size:19px}.list .r{grid-column:3;font-size:14px;align-self:baseline}.list .tag{grid-column:4;grid-row:1}.list .m{grid-column:2/5}
   .site-head h1{font-size:28px}
 }
+
+/* ── 공유 ── */
+.share{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:28px;padding:12px 14px;border:1px dashed var(--ash);border-radius:4px;background:rgba(255,255,255,.3)}
+.share-t{font-size:13px;color:var(--ink-soft);margin-right:6px}
+.share button{font:inherit;font-size:13px;padding:6px 12px;border:1px solid var(--ink);border-radius:20px;background:transparent;color:var(--ink);cursor:pointer;line-height:1.4}
+.share button:hover{background:var(--ink);color:var(--paper)}
+.share button.x{border-color:var(--ash);color:var(--ink-soft)}
+.share-msg{font-size:12px;color:var(--seal);margin-left:4px;min-height:1em}
+.share-modal{position:fixed;inset:0;background:rgba(31,42,46,.6);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+.share-card{background:var(--paper);padding:14px;border-radius:6px;max-width:640px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.share-card img{width:100%;height:auto;display:block;border:1px solid var(--ash)}
+.share-card-b{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.share-card-b button{font:inherit;font-size:14px;padding:8px 16px;border:1.5px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);cursor:pointer}
+.share-card-b button:hover{background:var(--ink);color:var(--paper)}
+.share-hint{font-size:12px;color:var(--ink-soft);text-align:center;margin-top:8px}
+.top-share{margin:-8px 0 18px}
+.top-share .share{margin-top:0;padding:8px 12px}
