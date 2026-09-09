@@ -1,0 +1,27 @@
+:root{--paper:#E9ECE6;--ink:#1F2A2E;--ink-soft:#4F5C61;--ash:#B9C2BE;--seal:#B8312F}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Serif KR',serif;background:var(--paper);color:var(--ink);
+ background-image:radial-gradient(circle at 20% 10%,rgba(255,255,255,.55),transparent 55%);padding:32px 20px 60px}
+.wrap{max-width:680px;margin:0 auto}
+.top{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-soft);margin-bottom:28px}
+.top a{color:var(--ink-soft);text-decoration:none}
+.top a:hover{color:var(--seal)}
+.hero{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;padding-bottom:28px;border-bottom:2px solid var(--ink);margin-bottom:32px}
+.hanja{writing-mode:vertical-rl;font-size:72px;font-weight:900;line-height:1;letter-spacing:.12em;padding:8px 6px;border-right:2px solid var(--ink);position:relative}
+.seal{position:absolute;left:6px;bottom:-4px;writing-mode:horizontal-tb;font-size:11px;letter-spacing:.2em;color:#fff;background:var(--seal);padding:5px 4px;border-radius:2px;font-weight:600;box-shadow:0 0 0 2px var(--paper),0 0 0 3px var(--seal)}
+h1{font-size:30px;font-weight:600;letter-spacing:.08em}
+.lit{font-size:14px;color:var(--ink-soft);margin-top:8px;letter-spacing:.04em}
+.meaning{font-size:18px;line-height:1.7;margin-top:16px}
+.origin{font-size:13px;color:var(--ink-soft);margin-top:12px}
+.origin::before{content:"출전 · ";color:var(--ash)}
+h2{font-size:17px;font-weight:600;margin:32px 0 12px;letter-spacing:.04em;display:flex;align-items:center;gap:10px}
+h2::after{content:"";flex:1;height:1px;background:var(--ash)}
+.story p{font-size:16px;line-height:1.9;margin-bottom:14px}
+.lesson{font-size:16px;line-height:1.85;padding:16px 18px;border-left:3px solid var(--seal);background:rgba(255,255,255,.4)}
+.ex{list-style:none}
+.ex li{font-size:15px;line-height:1.8;color:var(--ink-soft);padding-left:14px;border-left:3px solid var(--ash);margin-bottom:10px}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:44px;padding-top:20px;border-top:1px solid var(--ash)}
+.nav a{font-size:14px;color:var(--ink);text-decoration:none;border:1.5px solid var(--ink);border-radius:4px;padding:10px 14px;flex:1;text-align:center}
+.nav a:hover{background:var(--ink);color:var(--paper)}
+.nav a.empty{visibility:hidden}
+@media(max-width:480px){.hero{grid-template-columns:1fr;gap:18px}.hanja{writing-mode:horizontal-tb;border-right:0;padding:0;font-size:56px;letter-spacing:.1em}.seal{position:static;display:inline-block;margin-left:10px;vertical-align:middle}}

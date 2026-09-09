@@ -1,0 +1,11 @@
+{
+  "mode": "publish",
+  "postsPerDay": 1,
+  "cutoffHour": 23,
+  "timeoutSeconds": 900,
+  "site": {
+    "url": "https://haneul2819.github.io/sajaseongeo",
+    "title": "사자성어 이야기",
+    "author": "haneul2819"
+  }
+}

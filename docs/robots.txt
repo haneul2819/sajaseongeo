@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://haneul2819.github.io/sajaseongeo/sitemap.xml

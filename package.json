@@ -1,0 +1,11 @@
+{
+  "name": "sajaseongeo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "list": "node scripts/list-idioms.mjs",
+    "post": "bash scripts/generate-idiom.sh"
+  }
+}
