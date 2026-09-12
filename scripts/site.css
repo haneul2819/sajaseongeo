@@ -1,3 +1,4 @@
+[hidden]{display:none!important}
 
 /* ── 공통 추가 ── */
 .top .cat{color:var(--seal);text-decoration:none;margin-left:6px}
@@ -77,3 +78,29 @@
 .share-hint{font-size:12px;color:var(--ink-soft);text-align:center;margin-top:8px}
 .top-share{margin:-8px 0 18px}
 .top-share .share{margin-top:0;padding:8px 12px}
+
+/* ── 강의 듣기 ── */
+.listen-btn{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font:inherit;font-size:15px;padding:9px 16px 9px 12px;border:1.5px solid var(--seal);border-radius:24px;background:rgba(255,255,255,.55);color:var(--seal);cursor:pointer;line-height:1.2}
+.listen-btn:hover,.listen-btn.on{background:var(--seal);color:#fff}
+.listen-btn .l-i{display:inline-flex}
+.listen-btn small{font-size:12px;opacity:.8;margin-left:2px}
+[data-t]{transition:background-color .35s ease,box-shadow .35s ease;border-radius:2px}
+.reading{background-color:rgba(184,49,47,.09);box-shadow:0 0 0 6px rgba(184,49,47,.09)}
+.hanja.reading{box-shadow:none;background:transparent;color:var(--seal)}
+body.listening{padding-bottom:110px}
+body.listening [data-t]{cursor:pointer}
+.lbar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--paper);border-top:2px solid var(--ink);box-shadow:0 -6px 24px rgba(31,42,46,.12);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.lb-in{max-width:680px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.lb-play{flex:none;width:44px;height:44px;border-radius:50%;border:0;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.lb-play:hover{background:var(--seal)}
+.lb-mid{flex:1;min-width:0}
+.lb-top{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:4px}
+.lb-name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-time{color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.lb-range{width:100%;accent-color:var(--seal);margin:0;height:18px}
+.lb-speed,.lb-follow,.lb-close{flex:none;font:inherit;font-size:12px;border:1px solid var(--ash);border-radius:16px;background:transparent;color:var(--ink-soft);padding:5px 9px;cursor:pointer}
+.lb-follow.on{border-color:var(--ink);color:var(--ink)}
+.lb-close{font-size:16px;line-height:1;padding:4px 9px;border-color:transparent}
+.lb-next{display:block;max-width:680px;margin:8px auto 0;text-align:center;font-size:14px;color:var(--seal);text-decoration:none}
+.lb-next:hover{text-decoration:underline}
+@media(max-width:480px){.lb-follow{display:none}.lb-in{gap:8px}}

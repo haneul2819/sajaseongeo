@@ -7,5 +7,9 @@
     "url": "https://haneul2819.github.io/sajaseongeo",
     "title": "사자성어 이야기",
     "author": "haneul2819"
+  },
+  "tts": {
+    "voice": "ko-KR-HyunsuMultilingualNeural",
+    "rate": "-5%"
   }
 }

@@ -20,6 +20,17 @@ const AUTHOR = CONFIG.site?.author ?? '';
 const PAGE_CSS = readFileSync(join(ROOT, 'scripts', 'page.css'), 'utf-8');
 const SITE_CSS = readFileSync(join(ROOT, 'scripts', 'site.css'), 'utf-8');
 const SHARE_JS = readFileSync(join(ROOT, 'scripts', 'share.js'), 'utf-8');
+const LISTEN_JS = readFileSync(join(ROOT, 'scripts', 'listen.js'), 'utf-8');
+const TIMING_DIR = join(ROOT, 'data', 'audio');
+// 강의 음성(scripts/tts.py 산출물)이 있으면 문단별 시각을 읽는다. 없으면 null — 듣기 버튼을 내지 않는다.
+const timingOf = (i) => {
+  const n = String(i.num).padStart(3, '0');
+  const t = join(TIMING_DIR, `${n}.json`);
+  if (!existsSync(t) || !existsSync(join(ROOT, 'docs', 'audio', `${n}.mp3`))) return null;
+  return JSON.parse(readFileSync(t, 'utf-8'));
+};
+const durKo = (sec) => { const s = Math.round(sec); return `${Math.floor(s / 60)}분 ${s % 60}초`; };
+const durIso = (sec) => { const s = Math.round(sec); return `PT${Math.floor(s / 60)}M${s % 60}S`; };
 const shareBar = (data = '') => `<div class="share"${data}><span class="share-t">공유하기</span><button data-act="native" hidden>기기로 공유</button><button data-act="link">링크 복사</button><button data-act="text">글로 복사</button>${data ? '<button data-act="image">이미지 카드</button>' : ''}<button data-act="x" class="x">X</button><button data-act="fb" class="x">페이스북</button><span class="share-msg" aria-live="polite"></span></div>`;
 
 const esc = (s) => String(s)
@@ -95,6 +106,8 @@ function renderPage(i, prev, next, list, byCat) {
   const label = `사자성어 이야기 ${i.num} / ${list.length}${isDaily ? ` · ${dateKo(i.date)}` : ''}`;
   const title = `${i.hangul}(${i.hanja}) 뜻과 유래 — ${SITE_TITLE}`;
   const description = `${i.hangul}(${i.hanja}) ${i.meaning} 출전: ${i.origin}. 유래 이야기와 오늘의 쓰임, 예문을 담았습니다.`;
+  const tm = timingOf(i);
+  const audioUrl = tm ? `${SITE}/audio/${pad(i.num)}.mp3` : '';
   const jsonLd = [{
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -110,6 +123,7 @@ function renderPage(i, prev, next, list, byCat) {
     publisher: { '@type': 'Organization', name: SITE_TITLE },
     about: { '@type': 'DefinedTerm', name: i.hangul, alternateName: i.hanja, description: i.meaning },
     keywords: [i.hangul, i.hanja, `${i.hangul} 뜻`, `${i.hangul} 유래`, cat.name, '사자성어', '고사성어'].join(', '),
+    ...(tm ? { audio: { '@type': 'AudioObject', name: `${i.hangul}(${i.hanja}) 강의`, contentUrl: audioUrl, encodingFormat: 'audio/mpeg', duration: durIso(tm.duration), inLanguage: 'ko' } } : {}),
   }, breadcrumb([[SITE_TITLE, `${SITE}/`], [cat.name, urlOf(catFile(cat.slug))], [i.hangul, url]])];
 
   // 같은 갈래에서 자기 다음 6편 (순환)
@@ -124,27 +138,28 @@ function renderPage(i, prev, next, list, byCat) {
 <div class="top"><span>${label} · <a class="cat" href="${catFile(cat.slug)}">${esc(cat.name)}</a></span><a href="index.html">목록으로</a></div>
 <article>
 <div class="hero">
-  <div class="hanja">${esc(i.hanja)}<span class="seal">${esc(i.hangul)}</span></div>
+  <div class="hanja" data-t="title">${esc(i.hanja)}<span class="seal">${esc(i.hangul)}</span></div>
   <div>
-    <h1>${esc(i.hangul)}</h1>
-    <div class="lit">${esc(i.lit)}</div>
-    <p class="meaning">${esc(i.meaning)}</p>
-    <p class="origin">${esc(i.origin)}</p>
+    <h1 data-t="title">${esc(i.hangul)}</h1>
+    <div class="lit" data-t="lit">${esc(i.lit)}</div>
+    <p class="meaning" data-t="meaning">${esc(i.meaning)}</p>
+    <p class="origin" data-t="origin">${esc(i.origin)}</p>
+    ${tm ? `<button class="listen-btn" id="listen" type="button" aria-label="${esc(i.hangul)} 강의 음성 듣기"><span class="l-i"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span><span class="l-t">강의 듣기</span><small>${durKo(tm.duration)}</small></button>` : ''}
   </div>
 </div>
-<h2>유래 이야기</h2>
-<div class="story">${i.story.map((p) => `<p>${esc(p)}</p>`).join('')}</div>
+<h2 data-t="storyh">유래 이야기</h2>
+<div class="story">${i.story.map((p, k) => `<p data-t="story-${k}">${esc(p)}</p>`).join('')}</div>
 <h2>오늘에 새기는 뜻</h2>
-<p class="lesson">${esc(i.lesson)}</p>
-<h2>이렇게 씁니다</h2>
-<ul class="ex">${i.examples.map((e) => `<li>${esc(e)}</li>`).join('')}</ul>
+<p class="lesson" data-t="lesson">${esc(i.lesson)}</p>
+<h2 data-t="exh">이렇게 씁니다</h2>
+<ul class="ex">${i.examples.map((e, k) => `<li data-t="ex-${k}">${esc(e)}</li>`).join('')}</ul>
 </article>
 ${shareBar(` data-h="${esc(i.hangul)}" data-j="${esc(i.hanja)}" data-m="${esc(i.meaning)}" data-l="${esc(i.lit)}" data-o="${esc(i.origin)}" data-c="${esc(cat.name)}"`)}
 ${related.length ? `<h2>같은 갈래의 이야기 <a class="cat" href="${catFile(cat.slug)}" style="font-size:13px;font-weight:400">${esc(cat.name)} 전체 →</a></h2>
 <ul class="rel">${related.map((r) => `<li><a href="${fileOf(r)}"><span class="h">${esc(r.hanja)}</span><span class="r">${esc(r.hangul)}</span></a></li>`).join('')}</ul>` : ''}
 <nav class="nav">${prevLink}${nextLink}</nav>
 ${footer(list)}
-</main><script>${SHARE_JS}</script></body></html>`;
+</main><script>${SHARE_JS}</script>${tm ? `<script type="application/json" id="tts">${JSON.stringify({ src: `audio/${pad(i.num)}.mp3`, d: tm.duration, h: i.hangul, j: i.hanja, s: tm.segments.map((s) => [s.t, s.s, s.e]) })}</script><script>${LISTEN_JS}</script>` : ''}</body></html>`;
 }
 
 // ── 목록 항목 ────────────────────────────────────────────────────────────
@@ -172,7 +187,7 @@ function renderIndex(list, byCat) {
   const body = `
 <header class="site-head">
   <h1>${esc(SITE_TITLE)}</h1>
-  <p class="lit">유래와 뜻, 오늘의 쓰임을 함께 담았습니다. 매일 한 편씩 더해 갑니다.</p>
+  <p class="lit">유래와 뜻, 오늘의 쓰임을 함께 담았습니다. 이야기마다 강의 음성으로도 들을 수 있고, 매일 한 편씩 더해 갑니다.</p>
   <div class="stats"><span><b>${list.length}</b>편</span><span><b>${CATEGORIES.length}</b>갈래</span><span><b>${latest[0].date}</b>마지막 갱신</span></div>
 </header>
 <div class="top-share">${shareBar()}</div>

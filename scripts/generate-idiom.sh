@@ -122,6 +122,17 @@ if ! node scripts/validate-idiom.mjs "$NEW_FILE" >&2; then
   finish_fail "검사 불합격. ${REJ} 로 옮겼다."
 fi
 IDIOM="$(node -e 'const j=JSON.parse(require("fs").readFileSync(process.argv[1],"utf-8"));process.stdout.write(j.hangul+" "+j.hanja)' "$NEW_FILE")"
+
+# 강의 음성. 실패해도 글은 음성 없이 발행한다 (다음에 python scripts/tts.py 로 채울 수 있다).
+AUDIO_NOTE=""
+PY_BIN="$(command -v python || command -v py || true)"
+if [ -n "$PY_BIN" ] && PYTHONIOENCODING=utf-8 "$PY_BIN" scripts/tts.py --only "$NEXT_NUM" >&2; then
+  say "강의 음성 생성 완료."
+else
+  AUDIO_NOTE="음성 생성 실패 — 글만 발행"
+  say "경고: 강의 음성을 만들지 못했다. 글은 음성 없이 발행한다."
+fi
+
 if ! node scripts/build.mjs >&2; then
   REJ="data/rejected/${STAMP}_$(basename "$NEW_FILE")"
   mv "$NEW_FILE" "$REJ"
@@ -131,7 +142,7 @@ fi
 
 # ── 6. 커밋과 푸시 ────────────────────────────────────────────────────────
 PUSH_NOTE=""
-git add -- "$NEW_FILE" docs
+git add -- "$NEW_FILE" docs data/audio
 if git diff --cached --quiet; then
   PUSH_NOTE="변경 없음 — 커밋 생략"
 else
@@ -146,7 +157,7 @@ else
   fi
 fi
 
-log_line "OK | ${SECONDS}s | $(basename "$NEW_FILE") | ${IDIOM}${PUSH_NOTE:+ | $PUSH_NOTE}"
+log_line "OK | ${SECONDS}s | $(basename "$NEW_FILE") | ${IDIOM}${AUDIO_NOTE:+ | $AUDIO_NOTE}${PUSH_NOTE:+ | $PUSH_NOTE}"
 say ""
 say "완료 — ${SECONDS}초 · ${IDIOM} · ${NEW_FILE}"
 printf 'RESULT=ok\nFILE=%s\nIDIOM=%s\n' "$NEW_FILE" "$IDIOM"

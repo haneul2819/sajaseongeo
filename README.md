@@ -8,6 +8,11 @@
 목록 페이지에서 검색(한글·한자·뜻)과 갈래·가나다 필터, 번호순/가나다순 정렬을 쓸 수 있고,
 갈래마다 별도 페이지가 있으며, 글마다 같은 갈래의 이야기 여섯 편을 이어 보여 줍니다.
 
+글마다 **강의 듣기** 버튼이 있습니다. 뉴럴 음성이 사자성어 → 훈음 → 뜻 → 출전 → 유래 →
+오늘의 뜻 → 예문 순서로 강의하듯 읽어 주고, 읽는 문단을 화면에서 강조하며 따라 내려갑니다.
+재생 막대에서 멈춤·구간 이동·속도(1×, 1.2×, 1.5×, 0.8×)를 쓸 수 있고, 문단을 누르면 거기서부터
+다시 듣습니다. 끝나면 다음 이야기로 이어 가는 링크가 뜹니다.
+
 글을 쓰는 주체는 **로그인된 Claude Code 구독 세션**입니다. `ANTHROPIC_API_KEY`는 쓰지
 않습니다. 생성 스크립트가 환경에서 키를 걷어내고 헤드리스 모드로 세션을 띄웁니다.
 
@@ -109,7 +114,34 @@ Google Search Console 등록 (한 번만):
 
 네이버 서치어드바이저도 같은 방식(사이트 등록 → HTML 파일 확인 → 사이트맵 제출)입니다.
 
-## 6. 배포
+## 6. 강의 음성
+
+`scripts/tts.py` 가 글 JSON을 강의 대본으로 바꾸고 [edge-tts](https://github.com/rany2/edge-tts)
+(Microsoft Edge 소리 내어 읽기의 뉴럴 음성)로 문단별 음성을 만든 뒤, 사이에 쉼을 넣어 한 파일로
+잇습니다. API 키가 필요 없고, 인터넷 연결만 있으면 됩니다.
+
+```
+docs/audio/NNN.mp3     사이트에서 재생하는 음성 (한 편 약 2분, 800KB 안팎)
+data/audio/NNN.json    문단별 시작·끝 시각 → 빌드가 페이지에 넣어 읽는 곳을 강조한다
+```
+
+```bash
+pip install --user edge-tts                 # 한 번만
+python scripts/tts.py                       # 없는 것·바뀐 것만 만든다
+python scripts/tts.py --only 301            # 한 편만
+python scripts/tts.py --script 7            # 대본만 미리 보기
+python scripts/tts.py --force               # 전부 다시 (목소리를 바꿨을 때)
+```
+
+- 매일 자동 생성 때 새 글의 음성도 함께 만듭니다. 음성 생성이 실패하면 글만 먼저 발행하고,
+  나중에 `python scripts/tts.py` 를 돌리면 빠진 음성을 채웁니다.
+- 목소리와 빠르기는 `config.json` 의 `tts` 에서 바꿉니다. 쓸 수 있는 한국어 목소리는
+  `ko-KR-HyunsuMultilingualNeural`(남, 기본), `ko-KR-InJoonNeural`(남), `ko-KR-SunHiNeural`(여)
+  입니다. 바꾼 뒤 `python scripts/tts.py` → `npm run build` → 커밋하면 전부 새 목소리로 바뀝니다.
+- 글 내용을 고치면 대본이 달라지므로 다음 `tts.py` 실행 때 그 편의 음성만 다시 만듭니다.
+- 대본 규칙(인사말, 쉼 길이, 한자·괄호 정리)은 `tts.py` 의 `build_script` 에 있습니다.
+
+## 7. 배포
 
 저장소 [haneul2819/sajaseongeo](https://github.com/haneul2819/sajaseongeo), GitHub Pages
 (`main` 브랜치의 `/docs` 폴더). 빌드 단계가 없어 푸시하면 1분 안팎에 반영됩니다.
