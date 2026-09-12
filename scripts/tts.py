@@ -42,6 +42,7 @@ def clean(s: str) -> str:
     s = re.sub(r"\(\s*\)", "", s)
     s = re.sub(r"([\"'])\s*\1", "", s)        # 한자를 지우고 남은 빈 따옴표
     s = re.sub(r"([\"'])\s+\(", r"\1(", s)
+    s = re.sub(r"(사자|고사|한자)성어", r"\1 성어", s)  # [사자썽어] 된소리 방지 (build_script 주석 참고)
     s = re.sub(r"\s{2,}", " ", s)
     return s.strip()
 
@@ -105,7 +106,9 @@ def build_script(i: dict) -> list[dict]:
     eul = "을" if has_batchim(h) else "를"
     lit = clean(i["lit"]).rstrip(".")
     segs = [
-        {"t": "title", "text": f"오늘 함께 볼 사자성어는, {h}입니다.", "rate": "-10%", "pause": 0.7},
+        # '사자성어'를 붙여 쓰면 음성 엔진이 [사자썽어]로 된소리를 낸다. 표준 발음은 [사ː자성어].
+        # 대본에서만 띄어 써서 합성어 된소리를 막는다.
+        {"t": "title", "text": f"오늘 함께 볼 사자 성어는, {h}입니다.", "rate": "-10%", "pause": 0.7},
         {"t": "lit", "text": f"한 글자씩 풀어 보면, {lit}.", "rate": "-18%", "pause": 0.6},
         {"t": "meaning", "text": "풀이하면, " + meaning_line(i["meaning"]), "rate": BASE_RATE, "pause": 0.5},
         {"t": "origin", "text": origin_line(i["origin"]), "rate": BASE_RATE, "pause": 0.9},
@@ -120,7 +123,7 @@ def build_script(i: dict) -> list[dict]:
     for k, e in enumerate(i["examples"]):
         segs.append({"t": f"ex-{k}", "text": leads[min(k, 2)] + clean(e), "rate": "-8%", "pause": 0.6})
     segs[-1]["pause"] = 0.9
-    segs.append({"t": "title", "text": f"지금까지 사자성어 {h}{eul} 함께 살펴보았습니다.", "rate": BASE_RATE, "pause": 0.3})
+    segs.append({"t": "title", "text": f"지금까지 사자 성어 {h}{eul} 함께 살펴보았습니다.", "rate": BASE_RATE, "pause": 0.3})
     return segs
 
 
@@ -130,19 +133,48 @@ def build_script(i: dict) -> list[dict]:
 FRAME_SEC = 576 / 24000
 
 
-def frames(buf: bytes):
-    """프레임 수를 센다. 형식이 예상과 다르면 예외."""
-    n, pos = 0, 0
+def split_frames(buf: bytes) -> list[bytes]:
+    """MP3를 프레임 단위로 자른다. 형식이 예상과 다르면 예외."""
+    out, pos = [], 0
     while pos + 4 <= len(buf):
-        b1, b2, b3 = buf[pos + 1], buf[pos + 2], buf[pos + 3]
+        b1, b2 = buf[pos + 1], buf[pos + 2]
         if buf[pos] != 0xFF or (b1 & 0xE0) != 0xE0:
             raise ValueError(f"프레임 동기 오류 @{pos}")
         if (b1 & 0x18) != 0x10 or (b1 & 0x06) != 0x02 or (b2 >> 4) != 6 or ((b2 >> 2) & 3) != 1:
             raise ValueError("예상과 다른 MP3 형식 (MPEG-2 L3 48kbps 24kHz 아님)")
-        pad = (b2 >> 1) & 1
-        pos += 144 + pad
-        n += 1
-    return n
+        size = 144 + ((b2 >> 1) & 1)
+        out.append(buf[pos:pos + size])
+        pos += size
+    return out
+
+
+def frames(buf: bytes) -> int:
+    return len(split_frames(buf))
+
+
+def seg_key(s: dict) -> str:
+    """문단 음성의 지문. 목소리·빠르기·문장이 같으면 기존 음성을 그대로 다시 쓴다."""
+    return hashlib.sha1(json.dumps([VOICE, s["rate"], s["text"]], ensure_ascii=False).encode()).hexdigest()[:12]
+
+
+def reusable_clips(tfile: Path, afile: Path) -> dict:
+    """기존 파일에서 문단별 음성을 떼어 {지문: 프레임 바이트} 로 돌려준다."""
+    if not (tfile.exists() and afile.exists()):
+        return {}
+    try:
+        old = json.loads(tfile.read_text(encoding="utf-8"))
+        keys = old.get("keys")
+        if not keys or old.get("voice") != VOICE or len(keys) != len(old["segments"]):
+            return {}
+        fr = split_frames(afile.read_bytes())
+        clips = {}
+        for key, m in zip(keys, old["segments"]):
+            a, b = round(m["s"] / FRAME_SEC), round(m["e"] / FRAME_SEC)
+            if 0 <= a < b <= len(fr):
+                clips.setdefault(key, b"".join(fr[a:b]))
+        return clips
+    except Exception:
+        return {}
 
 
 def silence(sec: float) -> bytes:
@@ -184,7 +216,12 @@ async def make(i: dict, sem, force=False) -> str:
                 return "skip"
         except Exception:
             pass
-    clips = await asyncio.gather(*(speak(s["text"], s["rate"], sem) for s in segs))
+    keys = [seg_key(s) for s in segs]
+    have = {} if force else reusable_clips(tfile, afile)
+    need = [k for k, key in enumerate(keys) if key not in have]
+    fresh = await asyncio.gather(*(speak(segs[k]["text"], segs[k]["rate"], sem) for k in need))
+    have.update({keys[k]: clip for k, clip in zip(need, fresh)})
+    clips = [have[key] for key in keys]
     out, marks, t = bytearray(), [], 0.0
     for s, clip in zip(segs, clips):
         dur = frames(clip) * FRAME_SEC
@@ -195,9 +232,9 @@ async def make(i: dict, sem, force=False) -> str:
     AUDIO.mkdir(parents=True, exist_ok=True)
     TIMING.mkdir(parents=True, exist_ok=True)
     afile.write_bytes(bytes(out))
-    tfile.write_text(json.dumps({"num": i["num"], "voice": VOICE, "hash": h, "duration": round(t, 2), "segments": marks},
-                                ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    return f"{t:.0f}s"
+    tfile.write_text(json.dumps({"num": i["num"], "voice": VOICE, "hash": h, "duration": round(t, 2), "segments": marks,
+                                 "keys": keys}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    return f"{t:.0f}s (새로 만든 문단 {len(need)}/{len(segs)})"
 
 
 def load(only=None):

@@ -1,8 +1,8 @@
 {
  "num": 98,
  "voice": "ko-KR-HyunsuMultilingualNeural",
- "hash": "05e135fa36381347",
- "duration": 112.15,
+ "hash": "3ecfb41490e3dbf5",
+ "duration": 112.25,
  "segments": [
   {
    "t": "title",
@@ -67,7 +67,22 @@
   {
    "t": "title",
    "s": 106.61,
-   "e": 111.86
+   "e": 111.96
   }
+ ],
+ "keys": [
+  "2c5dbd3d66fb",
+  "c4a0c1aec197",
+  "fb2178462b71",
+  "470c434d6681",
+  "1f2d59d21eef",
+  "367f545a3c40",
+  "f99bdf5d0c71",
+  "03176ea89998",
+  "5eb7cebf1060",
+  "89392a1272a6",
+  "cfa286386b65",
+  "7bc9e6fa2313",
+  "0dc44c407f85"
  ]
 }
