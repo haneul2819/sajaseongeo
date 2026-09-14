@@ -1,6 +1,6 @@
 # 사자성어 이야기
 
-**https://haneul2819.github.io/sajaseongeo/**
+**https://saja.hnlab.kr/**  (예전 주소 haneul2819.github.io/sajaseongeo 로 들어와도 자동 이동)
 
 사자성어 300편(100선 + 추가 200편)을 열 갈래로 나누어 올려 두고, 그 뒤로 PC가 켜져 있는 동안
 **매일 한 편씩** 아직 없는 사자성어를 자동으로 더해 가는 사이트입니다.
@@ -107,7 +107,7 @@ canonical, Open Graph, JSON-LD(Article·BreadcrumbList) 를 넣고, 갈래 페�
 Google Search Console 등록 (한 번만):
 
 1. https://search.google.com/search-console 에서 "URL 접두어" 속성으로
-   `https://haneul2819.github.io/sajaseongeo/` 추가.
+   `https://saja.hnlab.kr/` 추가.
 2. 소유권 확인은 HTML 파일 방식. `docs/google5c39d22cd6990b0e.html` 이 이미 올라가 있으니
    확인 버튼만 누르면 됩니다 (AI 블로그와 같은 계정의 토큰).
 3. Sitemaps 메뉴에 `sitemap.xml` 제출.
@@ -145,3 +145,9 @@ python scripts/tts.py --force               # 전부 다시 (목소리를 바꿨
 
 저장소 [haneul2819/sajaseongeo](https://github.com/haneul2819/sajaseongeo), GitHub Pages
 (`main` 브랜치의 `/docs` 폴더). 빌드 단계가 없어 푸시하면 1분 안팎에 반영됩니다.
+
+### 도메인
+
+`saja.hnlab.kr` 은 가비아 DNS의 CNAME 레코드(`saja` → `haneul2819.github.io.`)로 연결되어 있고,
+`docs/CNAME` 파일이 GitHub Pages에 이 도메인을 알려 줍니다. 이 파일을 지우면 도메인 연결이 풀립니다.
+주소를 다시 옮길 때는 `config.json` 의 `site.url` 과 `docs/CNAME` 을 함께 고치고 빌드합니다.
