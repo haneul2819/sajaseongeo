@@ -6,10 +6,16 @@
   "site": {
     "url": "https://saja.hnlab.kr",
     "title": "사자성어 이야기",
-    "author": "haneul2819"
+    "author": "haneul2819",
+    "operator": "haneul2819",
+    "email": "",
+    "repo": "https://github.com/haneul2819/sajaseongeo"
   },
   "tts": {
     "voice": "ko-KR-HyunsuMultilingualNeural",
     "rate": "-5%"
+  },
+  "adsense": {
+    "client": ""
   }
 }

@@ -104,3 +104,38 @@ body.listening [data-t]{cursor:pointer}
 .lb-next{display:block;max-width:680px;margin:8px auto 0;text-align:center;font-size:14px;color:var(--seal);text-decoration:none}
 .lb-next:hover{text-decoration:underline}
 @media(max-width:480px){.lb-follow{display:none}.lb-in{gap:8px}}
+
+/* ── 상단 메뉴 ── */
+.gnav{margin:-32px -20px 26px;padding:0 20px;border-bottom:1px solid var(--ash);background:rgba(255,255,255,.35)}
+.gnav-in{max-width:780px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;min-height:48px;gap:12px}
+.gnav-home{display:flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;letter-spacing:.04em}
+.gnav-seal{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:var(--seal);color:#fff;border-radius:3px;font-size:14px;font-weight:700}
+.gnav nav{display:flex;gap:4px}
+.gnav nav a{font-size:14px;color:var(--ink-soft);text-decoration:none;padding:6px 10px;border-radius:4px}
+.gnav nav a:hover{color:var(--ink);background:rgba(255,255,255,.6)}
+
+/* ── 한 글자씩 보기 ── */
+.chars-lead{font-size:14px;color:var(--ink-soft);line-height:1.8;margin-bottom:12px}
+.chars{list-style:none;display:grid;gap:10px}
+.chars li{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start;padding:12px 14px;border:1px solid var(--ash);border-radius:4px;background:rgba(255,255,255,.3)}
+.chars .ch{font-size:40px;font-weight:900;line-height:1.1;text-align:center;color:var(--ink)}
+.chars .hun{font-size:15px;font-weight:600;margin-top:2px}
+.chars .with{font-size:12px;color:var(--ink-soft);margin:6px 0 6px}
+.chars .with.none{color:var(--ash)}
+.clinks{display:flex;flex-wrap:wrap;gap:6px}
+.clinks a{font-size:13px;color:var(--ink);text-decoration:none;border:1px solid var(--ash);border-radius:16px;padding:3px 10px;background:var(--paper)}
+.clinks a span{font-size:11px;color:var(--ink-soft);margin-left:5px}
+.clinks a:hover{border-color:var(--seal);color:var(--seal)}
+.clinks em{font-style:normal;font-size:12px;color:var(--ash);align-self:center}
+
+/* ── 소개·방침·문의 ── */
+.doc .doc-h{font-size:28px;margin:6px 0 18px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.doc .lead{font-size:16px;line-height:1.9;margin-bottom:8px}
+.doc p{font-size:15px;line-height:1.9;margin-bottom:12px}
+.doc a{color:var(--seal)}
+.doc .plain{list-style:none;margin-bottom:14px}
+.doc .plain li{font-size:15px;line-height:1.85;padding:6px 0 6px 14px;border-left:3px solid var(--ash);margin-bottom:8px}
+.doc .meta{font-size:13px;color:var(--ink-soft)}
+.doc .btn{display:inline-block;padding:10px 18px;border:1.5px solid var(--ink);border-radius:4px;color:var(--ink);text-decoration:none}
+.doc .btn:hover{background:var(--ink);color:var(--paper)}
+@media(max-width:480px){.gnav nav a{padding:6px 7px;font-size:13px}.gnav-home{font-size:14px}.chars li{grid-template-columns:44px 1fr}.chars .ch{font-size:32px}}

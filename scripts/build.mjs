@@ -7,6 +7,7 @@
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, existsSync, unlinkSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { staticPages } from './static-pages.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = join(ROOT, 'data', 'idioms');
@@ -29,6 +30,14 @@ const timingOf = (i) => {
   if (!existsSync(t) || !existsSync(join(ROOT, 'docs', 'audio', `${n}.mp3`))) return null;
   return JSON.parse(readFileSync(t, 'utf-8'));
 };
+// 광고: config.json 의 adsense.client 에 게시자 ID(ca-pub-…)를 넣으면 모든 페이지에 코드가 들어가고 ads.txt 가 생긴다.
+const ADSENSE = String(CONFIG.adsense?.client ?? '').trim();
+const OPERATOR = CONFIG.site?.operator ?? AUTHOR;
+const CONTACT_EMAIL = String(CONFIG.site?.email ?? '').trim();
+const REPO_URL = CONFIG.site?.repo ?? 'https://github.com/haneul2819/sajaseongeo';
+const FAVICON = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="4" y="4" width="56" height="56" rx="6" fill="#B8312F"/><text x="32" y="45" font-size="36" text-anchor="middle" fill="#fff" font-family="serif" font-weight="700">成</text></svg>');
+const PAGES_DATE = '2026-09-15'; // 소개·개인정보처리방침을 고치면 이 날짜도 바꾼다 (시행일로 표시된다)
+let BY_CHAR = {}; // 한자 한 글자 → 그 글자가 들어간 사자성어 목록 (실행부에서 채운다)
 const durKo = (sec) => { const s = Math.round(sec); return `${Math.floor(s / 60)}분 ${s % 60}초`; };
 const durIso = (sec) => { const s = Math.round(sec); return `PT${Math.floor(s / 60)}M${s % 60}S`; };
 const shareBar = (data = '') => `<div class="share"${data}><span class="share-t">공유하기</span><button data-act="native" hidden>기기로 공유</button><button data-act="link">링크 복사</button><button data-act="text">글로 복사</button>${data ? '<button data-act="image">이미지 카드</button>' : ''}<button data-act="x" class="x">X</button><button data-act="fb" class="x">페이스북</button><span class="share-msg" aria-live="polite"></span></div>`;
@@ -65,11 +74,12 @@ function loadIdioms() {
 }
 
 // ── 머리 부분 ────────────────────────────────────────────────────────────
-function head({ title, description, url, css, og = {}, jsonLd }) {
+function head({ title, description, url, css, og = {}, jsonLd, noindex = false, base = '' }) {
   const meta = [
+    base ? `<base href="${esc(base)}">` : '',
     `<title>${esc(title)}</title>`,
     `<meta name="description" content="${esc(description)}">`,
-    `<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">`,
+    `<meta name="robots" content="${noindex ? 'noindex,follow' : 'index,follow,max-snippet:-1,max-image-preview:large'}">`,
     url ? `<link rel="canonical" href="${esc(url)}">` : '',
     `<meta property="og:site_name" content="${esc(SITE_TITLE)}">`,
     `<meta property="og:locale" content="ko_KR">`,
@@ -79,13 +89,17 @@ function head({ title, description, url, css, og = {}, jsonLd }) {
     url ? `<meta property="og:url" content="${esc(url)}">` : '',
     `<meta name="twitter:card" content="summary">`,
     ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : []).map((j) => `<script type="application/ld+json">${JSON.stringify(j)}</script>`),
+    `<link rel="icon" href="${FAVICON}">`,
+    ADSENSE ? `<meta name="google-adsense-account" content="${esc(ADSENSE)}">` : '',
+    ADSENSE ? `<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${esc(ADSENSE)}" crossorigin="anonymous"></script>` : '',
   ].filter(Boolean).join('\n');
   return `<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 ${meta}
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;900&display=swap" rel="stylesheet">
 <style>
-${css}</style></head><body>`;
+${css}</style></head><body>
+<header class="gnav"><div class="gnav-in"><a class="gnav-home" href="index.html"><span class="gnav-seal">成</span>${esc(SITE_TITLE)}</a><nav aria-label="사이트 메뉴"><a href="index.html#catsec">갈래</a><a href="about.html">소개</a><a href="contact.html">문의</a></nav></div></header>`;
 }
 
 const breadcrumb = (items) => ({
@@ -95,7 +109,27 @@ const breadcrumb = (items) => ({
 });
 
 const footer = (list) =>
-  `<footer class="foot"><span>${esc(SITE_TITLE)} · ${list.length}편 · 매일 한 편씩 더합니다</span><span><a href="index.html">목록</a> · <a href="sitemap.xml">sitemap</a></span></footer>`;
+  `<footer class="foot"><span>${esc(SITE_TITLE)} · 사자성어 ${list.length}편 · © ${new Date().getFullYear()} ${esc(OPERATOR)}</span>` +
+  `<span><a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="contact.html">문의</a> · <a href="sitemap.xml">sitemap</a></span></footer>`;
+
+// ── 한 글자씩 보기: 글자마다 훈음과, 같은 글자가 들어간 다른 사자성어 ──────────
+function charSection(i) {
+  const huns = i.lit.split('·').map((s) => s.trim());
+  const rows = [...i.hanja].map((ch, k) => {
+    const others = (BY_CHAR[ch] ?? []).filter((x) => x.num !== i.num);
+    const links = others.slice(0, 8).map((x) =>
+      `<a href="${fileOf(x)}" title="${esc(x.meaning)}">${esc(x.hangul)}<span>${esc(x.hanja)}</span></a>`).join('');
+    const more = others.length > 8 ? `<em>외 ${others.length - 8}편</em>` : '';
+    return `<li><b class="ch">${esc(ch)}</b><div><p class="hun">${esc(huns[k] ?? '')}</p>` +
+      (others.length
+        ? `<p class="with">이 글자가 들어간 사자성어 ${others.length}편</p><div class="clinks">${links}${more}</div>`
+        : `<p class="with none">이 사이트에서 이 글자가 들어간 다른 사자성어는 아직 없습니다.</p>`) +
+      `</div></li>`;
+  }).join('');
+  const last = i.hangul.charCodeAt(i.hangul.length - 1) - 0xac00;
+  const eul = last >= 0 && last < 11172 && last % 28 ? '을' : '를';
+  return `<h2>한 글자씩 보기</h2>\n<p class="chars-lead">${esc(i.hangul)}${eul} 이루는 네 글자의 뜻과 소리, 그리고 같은 글자가 쓰인 다른 사자성어입니다. 한 글자를 여러 성어에서 만나면 뜻이 오래 남습니다.</p>\n<ul class="chars">${rows}</ul>`;
+}
 
 // ── 글 페이지 ────────────────────────────────────────────────────────────
 function renderPage(i, prev, next, list, byCat) {
@@ -153,6 +187,7 @@ function renderPage(i, prev, next, list, byCat) {
 <p class="lesson" data-t="lesson">${esc(i.lesson)}</p>
 <h2 data-t="exh">이렇게 씁니다</h2>
 <ul class="ex">${i.examples.map((e, k) => `<li data-t="ex-${k}">${esc(e)}</li>`).join('')}</ul>
+${charSection(i)}
 </article>
 ${shareBar(` data-h="${esc(i.hangul)}" data-j="${esc(i.hanja)}" data-m="${esc(i.meaning)}" data-l="${esc(i.lit)}" data-o="${esc(i.origin)}" data-c="${esc(cat.name)}"`)}
 ${related.length ? `<h2>같은 갈래의 이야기 <a class="cat" href="${catFile(cat.slug)}" style="font-size:13px;font-weight:400">${esc(cat.name)} 전체 →</a></h2>
@@ -281,6 +316,7 @@ function renderSitemap(list) {
     { loc: `${SITE}/`, lastmod: latest, priority: '1.0', changefreq: 'daily' },
     ...CATEGORIES.map((c) => ({ loc: urlOf(catFile(c.slug)), lastmod: latest, priority: '0.7', changefreq: 'weekly' })),
     ...list.map((i) => ({ loc: urlOf(fileOf(i)), lastmod: i.date, priority: '0.8', changefreq: 'monthly' })),
+    ...['about.html', 'contact.html', 'privacy.html'].map((f) => ({ loc: urlOf(f), lastmod: PAGES_DATE, priority: '0.3', changefreq: 'yearly' })),
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     urls.map((u) => `  <url><loc>${esc(u.loc)}</loc><lastmod>${u.lastmod}</lastmod><changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority></url>`).join('\n') +
@@ -291,6 +327,8 @@ const renderRobots = () => `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.
 // ── 실행 ─────────────────────────────────────────────────────────────────
 const list = loadIdioms();
 const byCat = Object.fromEntries(CATEGORIES.map((c) => [c.slug, list.filter((i) => i.category === c.slug)]));
+BY_CHAR = {};
+for (const i of list) for (const ch of new Set(i.hanja)) (BY_CHAR[ch] ??= []).push(i);
 mkdirSync(OUT, { recursive: true });
 const keep = new Set([...list.map(fileOf), ...CATEGORIES.map((c) => catFile(c.slug))]);
 for (const n of readdirSync(OUT)) {
@@ -303,5 +341,22 @@ for (const c of CATEGORIES) writeFileSync(join(OUT, catFile(c.slug)), renderCate
 writeFileSync(join(OUT, 'index.html'), renderIndex(list, byCat), 'utf-8');
 writeFileSync(join(OUT, 'sitemap.xml'), renderSitemap(list), 'utf-8');
 writeFileSync(join(OUT, 'robots.txt'), renderRobots(), 'utf-8');
+// 소개·개인정보처리방침·문의·404
+const firstDate = list.reduce((m, i) => (i.date < m ? i.date : m), '9999');
+for (const pg of staticPages({ esc, SITE, SITE_TITLE, OPERATOR, CONTACT_EMAIL, REPO_URL, count: list.length, categories: CATEGORIES, firstDate: dateKo(firstDate), effective: dateKo(PAGES_DATE) })) {
+  const url = pg.noindex ? '' : urlOf(pg.file);
+  const html = `${head({ title: pg.title, description: pg.description, url, css: PAGE_CSS + SITE_CSS, noindex: pg.noindex, base: pg.file === '404.html' ? `${SITE}/` : '',
+    jsonLd: pg.noindex ? null : breadcrumb([[SITE_TITLE, `${SITE}/`], [pg.heading, url]]) })}<main class="wrap doc">
+<div class="top"><span>${esc(SITE_TITLE)}</span><a href="index.html">목록으로</a></div>
+<h1 class="doc-h">${esc(pg.heading)}</h1>
+${pg.body}
+${footer(list)}
+</main></body></html>`;
+  writeFileSync(join(OUT, pg.file), html, 'utf-8');
+}
+// 광고 게시자 ID가 있으면 ads.txt (애드센스는 루트 도메인의 ads.txt 도 함께 확인한다)
+const adsTxt = join(OUT, 'ads.txt');
+if (ADSENSE) writeFileSync(adsTxt, `google.com, ${ADSENSE.replace(/^ca-/, '')}, DIRECT, f08c47fec0942fa0\n`, 'utf-8');
+else if (existsSync(adsTxt)) unlinkSync(adsTxt);
 if (!existsSync(join(OUT, '.nojekyll'))) writeFileSync(join(OUT, '.nojekyll'), '');
-console.log(`빌드 완료: ${list.length}편, 갈래 ${CATEGORIES.length}개 → docs/ (sitemap ${list.length + CATEGORIES.length + 1}개 URL)`);
+console.log(`빌드 완료: ${list.length}편, 갈래 ${CATEGORIES.length}개 → docs/ (sitemap ${list.length + CATEGORIES.length + 4}개 URL)`);

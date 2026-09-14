@@ -151,3 +151,21 @@ python scripts/tts.py --force               # 전부 다시 (목소리를 바꿨
 `saja.hnlab.kr` 은 가비아 DNS의 CNAME 레코드(`saja` → `haneul2819.github.io.`)로 연결되어 있고,
 `docs/CNAME` 파일이 GitHub Pages에 이 도메인을 알려 줍니다. 이 파일을 지우면 도메인 연결이 풀립니다.
 주소를 다시 옮길 때는 `config.json` 의 `site.url` 과 `docs/CNAME` 을 함께 고치고 빌드합니다.
+
+## 8. 애드센스
+
+사이트 쪽 준비는 되어 있습니다. 모든 페이지에 상단 메뉴(갈래·소개·문의)와 바닥글(소개·개인정보처리방침·문의)이
+있고, `about.html`·`privacy.html`·`contact.html`·`404.html` 이 빌드 때 함께 만들어집니다
+(본문은 `scripts/static-pages.mjs`). 개인정보처리방침에는 애드센스가 요구하는 광고 쿠키 고지가 들어 있습니다.
+
+승인 뒤 광고를 켜려면 `config.json` 의 게시자 ID 한 줄만 채우고 빌드·커밋합니다.
+
+```json
+"adsense": { "client": "ca-pub-0000000000000000" }
+```
+
+그러면 모든 페이지의 `<head>` 에 애드센스 코드와 `google-adsense-account` 메타 태그가 들어가고
+`docs/ads.txt` 가 생깁니다. 문의용 이메일을 공개하려면 `site.email` 에 넣으면 문의·방침 페이지에 나타납니다.
+
+주의: 애드센스는 사이트를 **최상위 도메인(hnlab.kr) 단위**로 관리하고, `ads.txt` 도 루트 도메인에서
+확인합니다. `saja.hnlab.kr` 만으로는 신청 대상이 `hnlab.kr` 이 되므로 루트 도메인이 열려 있어야 합니다.
