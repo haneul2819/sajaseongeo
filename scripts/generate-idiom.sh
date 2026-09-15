@@ -123,14 +123,20 @@ if ! node scripts/validate-idiom.mjs "$NEW_FILE" >&2; then
 fi
 IDIOM="$(node -e 'const j=JSON.parse(require("fs").readFileSync(process.argv[1],"utf-8"));process.stdout.write(j.hangul+" "+j.hanja)' "$NEW_FILE")"
 
-# 강의 음성. 실패해도 글은 음성 없이 발행한다 (다음에 python scripts/tts.py 로 채울 수 있다).
+# 강의 음성. 새 글뿐 아니라 예전에 빠진 음성도 함께 채운다(이미 있는 것은 건너뛴다).
+# 실패하면 30초 뒤 한 번 더. 그래도 안 되면 글만 발행하고, 오류는 logs/raw/<시각>.tts.log 에 남긴다.
 AUDIO_NOTE=""
+TTS_LOG="${RAW_DIR}/${STAMP}.tts.log"
 PY_BIN="$(command -v python || command -v py || true)"
-if [ -n "$PY_BIN" ] && PYTHONIOENCODING=utf-8 "$PY_BIN" scripts/tts.py --only "$NEXT_NUM" >&2; then
+run_tts() { PYTHONIOENCODING=utf-8 "$PY_BIN" scripts/tts.py >>"$TTS_LOG" 2>&1; }
+if [ -z "$PY_BIN" ]; then
+  AUDIO_NOTE="음성 생성 실패(파이썬 없음) — 글만 발행"
+  echo "python 을 찾지 못했다. PATH=$PATH" >"$TTS_LOG"
+elif run_tts || { sleep 30; echo "--- 재시도 ---" >>"$TTS_LOG"; run_tts; }; then
   say "강의 음성 생성 완료."
 else
-  AUDIO_NOTE="음성 생성 실패 — 글만 발행"
-  say "경고: 강의 음성을 만들지 못했다. 글은 음성 없이 발행한다."
+  AUDIO_NOTE="음성 생성 실패 — 글만 발행 (원본: ${TTS_LOG})"
+  say "경고: 강의 음성을 만들지 못했다. 글은 음성 없이 발행한다. $(tail -n 2 "$TTS_LOG" 2>/dev/null | tr '\n' ' ')"
 fi
 
 if ! node scripts/build.mjs >&2; then
