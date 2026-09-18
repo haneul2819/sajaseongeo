@@ -36,7 +36,7 @@ const OPERATOR = CONFIG.site?.operator ?? AUTHOR;
 const CONTACT_EMAIL = String(CONFIG.site?.email ?? '').trim();
 const REPO_URL = CONFIG.site?.repo ?? 'https://github.com/haneul2819/sajaseongeo';
 const FAVICON = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect x="4" y="4" width="56" height="56" rx="6" fill="#B8312F"/><text x="32" y="45" font-size="36" text-anchor="middle" fill="#fff" font-family="serif" font-weight="700">成</text></svg>');
-const PAGES_DATE = '2026-09-15'; // 소개·개인정보처리방침을 고치면 이 날짜도 바꾼다 (시행일로 표시된다)
+const PAGES_DATE = '2026-09-18'; // 소개·개인정보처리방침을 고치면 이 날짜도 바꾼다 (시행일로 표시된다)
 let BY_CHAR = {}; // 한자 한 글자 → 그 글자가 들어간 사자성어 목록 (실행부에서 채운다)
 const durKo = (sec) => { const s = Math.round(sec); return `${Math.floor(s / 60)}분 ${s % 60}초`; };
 const durIso = (sec) => { const s = Math.round(sec); return `PT${Math.floor(s / 60)}M${s % 60}S`; };
@@ -99,7 +99,7 @@ ${meta}
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;900&display=swap" rel="stylesheet">
 <style>
 ${css}</style></head><body>
-<header class="gnav"><div class="gnav-in"><a class="gnav-home" href="index.html"><span class="gnav-seal">成</span>${esc(SITE_TITLE)}</a><nav aria-label="사이트 메뉴"><a href="index.html#catsec">갈래</a><a href="about.html">소개</a><a href="contact.html">문의</a></nav></div></header>`;
+<header class="gnav"><div class="gnav-in"><a class="gnav-home" href="index.html"><span class="gnav-seal">成</span>${esc(SITE_TITLE)}</a><nav aria-label="사이트 메뉴"><a href="index.html#catsec">갈래</a><a href="about.html">소개</a></nav></div></header>`;
 }
 
 const breadcrumb = (items) => ({
@@ -110,7 +110,7 @@ const breadcrumb = (items) => ({
 
 const footer = (list) =>
   `<footer class="foot"><span>${esc(SITE_TITLE)} · 사자성어 ${list.length}편 · © ${new Date().getFullYear()} ${esc(OPERATOR)}</span>` +
-  `<span><a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="contact.html">문의</a> · <a href="sitemap.xml">sitemap</a></span></footer>`;
+  `<span><a href="about.html">소개</a> · <a href="privacy.html">개인정보처리방침</a> · <a href="sitemap.xml">sitemap</a></span></footer>`;
 
 // ── 한 글자씩 보기: 글자마다 훈음과, 같은 글자가 들어간 다른 사자성어 ──────────
 function charSection(i) {
@@ -316,7 +316,7 @@ function renderSitemap(list) {
     { loc: `${SITE}/`, lastmod: latest, priority: '1.0', changefreq: 'daily' },
     ...CATEGORIES.map((c) => ({ loc: urlOf(catFile(c.slug)), lastmod: latest, priority: '0.7', changefreq: 'weekly' })),
     ...list.map((i) => ({ loc: urlOf(fileOf(i)), lastmod: i.date, priority: '0.8', changefreq: 'monthly' })),
-    ...['about.html', 'contact.html', 'privacy.html'].map((f) => ({ loc: urlOf(f), lastmod: PAGES_DATE, priority: '0.3', changefreq: 'yearly' })),
+    ...['about.html', 'privacy.html'].map((f) => ({ loc: urlOf(f), lastmod: PAGES_DATE, priority: '0.3', changefreq: 'yearly' })),
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     urls.map((u) => `  <url><loc>${esc(u.loc)}</loc><lastmod>${u.lastmod}</lastmod><changefreq>${u.changefreq}</changefreq><priority>${u.priority}</priority></url>`).join('\n') +
@@ -341,7 +341,8 @@ for (const c of CATEGORIES) writeFileSync(join(OUT, catFile(c.slug)), renderCate
 writeFileSync(join(OUT, 'index.html'), renderIndex(list, byCat), 'utf-8');
 writeFileSync(join(OUT, 'sitemap.xml'), renderSitemap(list), 'utf-8');
 writeFileSync(join(OUT, 'robots.txt'), renderRobots(), 'utf-8');
-// 소개·개인정보처리방침·문의·404
+// 소개·개인정보처리방침·404
+if (existsSync(join(OUT, 'contact.html'))) unlinkSync(join(OUT, 'contact.html'));
 const firstDate = list.reduce((m, i) => (i.date < m ? i.date : m), '9999');
 for (const pg of staticPages({ esc, SITE, SITE_TITLE, OPERATOR, CONTACT_EMAIL, REPO_URL, count: list.length, categories: CATEGORIES, firstDate: dateKo(firstDate), effective: dateKo(PAGES_DATE) })) {
   const url = pg.noindex ? '' : urlOf(pg.file);
@@ -359,4 +360,4 @@ const adsTxt = join(OUT, 'ads.txt');
 if (ADSENSE) writeFileSync(adsTxt, `google.com, ${ADSENSE.replace(/^ca-/, '')}, DIRECT, f08c47fec0942fa0\n`, 'utf-8');
 else if (existsSync(adsTxt)) unlinkSync(adsTxt);
 if (!existsSync(join(OUT, '.nojekyll'))) writeFileSync(join(OUT, '.nojekyll'), '');
-console.log(`빌드 완료: ${list.length}편, 갈래 ${CATEGORIES.length}개 → docs/ (sitemap ${list.length + CATEGORIES.length + 4}개 URL)`);
+console.log(`빌드 완료: ${list.length}편, 갈래 ${CATEGORIES.length}개 → docs/ (sitemap ${list.length + CATEGORIES.length + 3}개 URL)`);

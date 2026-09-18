@@ -1,22 +1,15 @@
-// 소개·개인정보처리방침·문의·404 페이지의 본문.
+// 소개·개인정보처리방침·404 페이지의 본문.
 // build.mjs 가 머리말·메뉴·바닥글을 붙여 docs/ 에 쓴다. 문장을 고치려면 이 파일을 고친다.
 
 export function staticPages(ctx) {
   const { esc, SITE, SITE_TITLE, OPERATOR, CONTACT_EMAIL, REPO_URL, count, categories, firstDate, effective } = ctx;
-  const issueUrl = `${REPO_URL}/issues/new`;
-  const mail = CONTACT_EMAIL
-    ? `<a href="mailto:${esc(CONTACT_EMAIL)}">${esc(CONTACT_EMAIL)}</a>`
-    : '';
-  const contactLine = CONTACT_EMAIL
-    ? `이메일 ${mail} 또는 <a href="${issueUrl}">GitHub 문의 게시판</a>`
-    : `<a href="${issueUrl}">GitHub 문의 게시판</a>`;
 
   return [
     {
       file: 'about.html',
       title: `소개 — ${SITE_TITLE}`,
       heading: '사이트 소개',
-      description: `${SITE_TITLE}는 사자성어 ${count}편의 뜻과 유래, 오늘의 쓰임과 예문을 담고 강의 음성으로도 들려주는 사이트입니다. 만드는 방식과 운영자를 소개합니다.`,
+      description: `${SITE_TITLE}는 사자성어 ${count}편의 뜻과 유래, 오늘의 쓰임과 예문을 담고 강의 음성으로도 들려주는 사이트입니다. HNLAB 하늘디지털랩스가 만들었습니다.`,
       body: `
 <p class="lead">${esc(SITE_TITLE)}는 사자성어 하나마다 글자의 뜻과 소리, 말이 생겨난 이야기, 오늘의 삶에 새길 뜻, 실제로 쓰는 예문을 한 장에 담는 사이트입니다. 지금 ${count}편이 실려 있고 매일 한 편씩 더해 갑니다.</p>
 
@@ -30,28 +23,19 @@ export function staticPages(ctx) {
 </ul>
 <p>이야기는 ${categories.map((c) => esc(c.name)).join(', ')}의 열 갈래로 나누어 두었습니다. 목록에서 한글·한자·뜻으로 찾거나, 갈래와 첫소리(ㄱ~ㅎ)로 걸러 볼 수 있습니다.</p>
 
-<h2>어떻게 만드나요</h2>
-<ul class="plain">
-  <li>처음 100편은 운영자가 엮은 「사자성어 이야기 100선」입니다.</li>
-  <li>101번째부터는 인공지능 글쓰기 도구(Anthropic의 Claude)의 도움을 받아 초안을 쓰고, 정해 둔 집필 원칙과 자동 검사를 거쳐 싣습니다.</li>
-  <li>집필 원칙: 출전이 분명한 사실만 씁니다. 인명·연도·책 이름처럼 확인하기 어려운 세부는 짐작해서 채우지 않고 문장에서 뺍니다. 과장된 표현, 이모지, 느낌표를 쓰지 않습니다.</li>
-  <li>자동 검사: 한자와 한글이 각각 네 글자인지, 유래가 세 문단으로 충분한 분량인지, 예문에 그 성어가 실제로 들어 있는지, 이미 실린 성어와 겹치지 않는지 확인합니다.</li>
-  <li>강의 음성은 Microsoft의 뉴럴 음성 합성으로 만듭니다. 대본은 글과 같은 내용이며, 한자는 소리 내어 읽지 않고 뜻으로 풀어 읽습니다.</li>
-</ul>
-<p>그래도 틀린 곳이 있을 수 있습니다. 잘못된 출전이나 어색한 풀이를 발견하시면 <a href="contact.html">문의</a>로 알려 주세요. 확인하는 대로 고치고, 고친 내용은 음성에도 반영합니다.</p>
 
-<h2>운영자</h2>
-<p>${esc(SITE_TITLE)}는 ${esc(OPERATOR)}(hnlab)가 운영합니다. 첫 글은 ${esc(firstDate)}에 실었습니다. 광고가 붙더라도 광고주가 글의 내용에 관여하지 않습니다.</p>
+<h2>만든 곳</h2>
+<p>${esc(SITE_TITLE)}는 ${esc(OPERATOR)}가 만들고 운영합니다. 첫 글은 ${esc(firstDate)}에 실었습니다. 광고가 붙더라도 광고주가 글의 내용에 관여하지 않습니다.</p>
 
 <h2>저작권</h2>
-<p>이 사이트의 글과 음성의 저작권은 운영자에게 있습니다. 출처(사이트 이름과 주소)를 밝힌 짧은 인용과 개인 학습·수업 자료로의 활용은 환영합니다. 글 전체를 옮겨 싣는 것은 삼가 주세요.</p>
+<p>이 사이트의 글과 음성의 저작권은 ${esc(OPERATOR)}에 있습니다. 출처(사이트 이름과 주소)를 밝힌 짧은 인용과 개인 학습·수업 자료로의 활용은 환영합니다. 글 전체를 옮겨 싣는 것은 삼가 주세요.</p>
 `,
     },
     {
       file: 'privacy.html',
       title: `개인정보처리방침 — ${SITE_TITLE}`,
       heading: '개인정보처리방침',
-      description: `${SITE_TITLE}의 개인정보처리방침입니다. 수집하는 정보, 쿠키와 광고, 브라우저 저장소 사용, 문의 방법을 안내합니다.`,
+      description: `${SITE_TITLE}의 개인정보처리방침입니다. 수집하는 정보, 쿠키와 광고, 브라우저 저장소 사용을 안내합니다.`,
       body: `
 <p class="lead">${esc(SITE_TITLE)}(${esc(SITE.replace(/^https?:\/\//, ''))}, 이하 "사이트")는 방문자의 개인정보를 소중히 여기며, 어떤 정보가 어떻게 쓰이는지 아래와 같이 알려 드립니다.</p>
 
@@ -85,34 +69,9 @@ export function staticPages(ctx) {
 <h2>6. 아동의 개인정보</h2>
 <p>사이트는 만 14세 미만 아동을 포함해 누구의 개인정보도 의도적으로 수집하지 않습니다.</p>
 
-<h2>7. 문의와 변경</h2>
-<p>개인정보와 관련한 문의는 ${contactLine}로 보내 주세요. 이 방침이 바뀌면 이 페이지에 바뀐 내용과 날짜를 알립니다.</p>
+<h2>7. 방침의 변경</h2>
+<p>이 방침이 바뀌면 이 페이지에 바뀐 내용과 날짜를 알립니다.</p>
 <p class="meta">시행일: ${esc(effective)}</p>
-`,
-    },
-    {
-      file: 'contact.html',
-      title: `문의 — ${SITE_TITLE}`,
-      heading: '문의',
-      description: `${SITE_TITLE}에 오류 제보, 제안, 제휴 문의를 보내는 방법입니다.`,
-      body: `
-<p class="lead">틀린 출전, 어색한 풀이, 강의 음성의 잘못된 발음, 더 실었으면 하는 사자성어가 있으면 알려 주세요. 확인하는 대로 고치고 답을 드립니다.</p>
-
-<h2>보내는 곳</h2>
-<ul class="plain">
-  ${CONTACT_EMAIL ? `<li><b>이메일</b> — ${mail}</li>` : ''}
-  <li><b>GitHub 문의 게시판</b> — <a href="${issueUrl}">새 문의 남기기</a> (GitHub 계정이 필요합니다. 남긴 글은 공개됩니다.)</li>
-</ul>
-
-<h2>이렇게 적어 주시면 빨리 고칠 수 있습니다</h2>
-<ul class="plain">
-  <li>해당 사자성어의 이름이나 페이지 주소</li>
-  <li>틀린 부분과 바른 내용, 그리고 근거가 되는 책이나 사전</li>
-  <li>강의 음성이라면 몇 분 몇 초 무렵인지</li>
-</ul>
-
-<h2>그 밖의 문의</h2>
-<p>수업 자료로 쓰고 싶거나 제휴·광고를 문의하시는 경우에도 같은 곳으로 보내 주세요. 개인정보 처리에 관한 내용은 <a href="privacy.html">개인정보처리방침</a>을 참고해 주세요.</p>
 `,
     },
     {
@@ -124,7 +83,7 @@ export function staticPages(ctx) {
       body: `
 <p class="lead">주소가 바뀌었거나 잘못 입력된 것 같습니다. 목록에서 한글·한자·뜻으로 찾아보세요.</p>
 <p><a class="btn" href="${SITE}/">사자성어 목록으로 가기</a></p>
-<p class="meta">찾던 사자성어가 아직 없다면 <a href="${SITE}/contact.html">문의</a>로 알려 주세요. 매일 한 편씩 더해 갑니다.</p>
+<p class="meta">찾던 사자성어가 아직 없다면 조금만 기다려 주세요. 매일 한 편씩 더해 갑니다.</p>
 `,
     },
   ];
