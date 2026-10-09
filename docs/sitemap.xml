@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://saja.hnlab.kr/</loc><lastmod>2026-10-08</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>https://saja.hnlab.kr/category-effort.html</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://saja.hnlab.kr/category-wisdom.html</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://saja.hnlab.kr/category-friendship.html</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://saja.hnlab.kr/category-virtue.html</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://saja.hnlab.kr/category-conduct.html</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://saja.hnlab.kr/category-folly.html</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://saja.hnlab.kr/category-fate.html</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://saja.hnlab.kr/category-strategy.html</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://saja.hnlab.kr/category-society.html</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://saja.hnlab.kr/category-emotion.html</loc><lastmod>2026-10-08</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://saja.hnlab.kr/</loc><lastmod>2026-10-10</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://saja.hnlab.kr/category-effort.html</loc><lastmod>2026-10-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://saja.hnlab.kr/category-wisdom.html</loc><lastmod>2026-10-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://saja.hnlab.kr/category-friendship.html</loc><lastmod>2026-10-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://saja.hnlab.kr/category-virtue.html</loc><lastmod>2026-10-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://saja.hnlab.kr/category-conduct.html</loc><lastmod>2026-10-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://saja.hnlab.kr/category-folly.html</loc><lastmod>2026-10-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://saja.hnlab.kr/category-fate.html</loc><lastmod>2026-10-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://saja.hnlab.kr/category-strategy.html</loc><lastmod>2026-10-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://saja.hnlab.kr/category-society.html</loc><lastmod>2026-10-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://saja.hnlab.kr/category-emotion.html</loc><lastmod>2026-10-10</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://saja.hnlab.kr/001_%EA%B3%A0%EC%A7%84%EA%B0%90%EB%9E%98.html</loc><lastmod>2026-09-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://saja.hnlab.kr/002_%EC%83%88%EC%98%B9%EC%A7%80%EB%A7%88.html</loc><lastmod>2026-09-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://saja.hnlab.kr/003_%EC%98%A8%EA%B3%A0%EC%A7%80%EC%8B%A0.html</loc><lastmod>2026-09-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -329,6 +329,7 @@
   <url><loc>https://saja.hnlab.kr/316_%ED%98%BC%EC%A0%95%EC%8B%A0%EC%84%B1.html</loc><lastmod>2026-10-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://saja.hnlab.kr/317_%EC%A3%BC%EC%A7%80%EC%9C%A1%EB%A6%BC.html</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://saja.hnlab.kr/318_%EA%B8%88%EC%9D%98%EC%95%BC%ED%96%89.html</loc><lastmod>2026-10-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://saja.hnlab.kr/319_%EB%B0%B1%EB%85%84%ED%95%B4%EB%A1%9C.html</loc><lastmod>2026-10-10</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://saja.hnlab.kr/about.html</loc><lastmod>2026-09-18</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://saja.hnlab.kr/privacy.html</loc><lastmod>2026-09-18</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 </urlset>
